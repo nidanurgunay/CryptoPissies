@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Web3 from "web3";
-import Color from "../abis/Color.json"
+import Pisi from "../abis/Pisi.json"
 import './App.css';
 
 class App extends Component {
@@ -27,9 +27,9 @@ class App extends Component {
     this.setState({ account: accounts[0] })
 
     const networkId = await web3.eth.net.getId()
-    const networkData = Color.networks[networkId]
+    const networkData = Pisi.networks[networkId]
     if (networkData){
-      const abi = Color.abi
+      const abi = Pisi.abi
       const address = networkData.address
       const contract = new web3.eth.Contract(abi, address)
       this.setState({ contract })

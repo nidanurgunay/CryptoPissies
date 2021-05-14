@@ -1,6 +1,6 @@
 const { assert } = require("chai")
 
-const Color = artifacts.require("./Color.sol")
+const Pisi = artifacts.require("./Pisi.sol")
 
 require("chai")
     .use(require("chai-as-promised"))
@@ -10,7 +10,7 @@ contract("Color", (accounts) => {
     let contract
 
     before(async() => {
-        contract = await Color.deployed()
+        contract = await Pisi.deployed()
     })
 
     describe("deployment", async() => {

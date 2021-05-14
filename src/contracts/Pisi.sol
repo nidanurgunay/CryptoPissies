@@ -2,7 +2,7 @@ pragma solidity 0.5.0;
 
 import "./ERC721Full.sol";
 
-contract Color is ERC721Full {
+contract Pisi is ERC721Full {
     string[] public colors;
     mapping(string => bool) _colorExists;
 
