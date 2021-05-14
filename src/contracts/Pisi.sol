@@ -98,7 +98,38 @@ contract Pisi is ERC721Full {
     }
 
     function randomAttributes() public returns (string memory) {
-        return decodeAttributes(uint2str(uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty))) % (2 ** 247)));
+        uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));
+
+        string memory randColor = uint2hexstr(rand % (16 ** 6));
+        string memory randInt = uint2str(rand % (2 ** 8));
+
+        return decodeAttributes(string(abi.encodePacked(
+            abi.encodePacked(
+                randColor, // eyeColor,
+                randInt, // eyeSize,
+
+                randColor, // headColor,
+                randInt, // headSize,
+
+                randInt, // beardSize,
+
+                randColor, // tailColor,
+                randColor, // tailAccentColor,
+                randInt  // tailSize,
+            ), 
+            
+            abi.encodePacked(
+                randColor, // bodyColor,
+                randColor, // bodyAccentColor,
+
+                randInt, // stripeType,
+
+                randInt, // hungerness,
+                randInt, // fragility,
+                randInt, // fertility,
+                randInt  // appeal
+            )
+        )));
     }
     
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
@@ -116,6 +147,27 @@ contract Pisi is ERC721Full {
         while (_i != 0) {
             bstr[k--] = byte(uint8(48 + _i % 10));
             _i /= 10;
+        }
+        return string(bstr);
+    }
+
+    function uint2hexstr(uint i) internal pure returns (string memory) {
+        if (i == 0) return "0";
+        uint j = i;
+        uint length;
+        while (j != 0) {
+            length++;
+            j = j >> 4;
+        }
+        uint mask = 15;
+        bytes memory bstr = new bytes(length);
+        uint k = length - 1;
+        uint numStart = 48;
+        uint letterStarn = 65;
+        while (i != 0){
+            uint curr = (i & mask);
+            bstr[k--] = curr > 9 ? byte(uint8(55 + curr)) : byte(uint8(48 + curr)); // 55 = 65 - 10
+            i = i >> 4;
         }
         return string(bstr);
     }
