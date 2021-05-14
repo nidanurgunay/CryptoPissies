@@ -67,4 +67,44 @@ contract("Color", (accounts) => {
             assert.equal(result.join(","), expected.join(","))
         })
     })
+
+    describe("attributes", async() => {
+        it("decode attribute", async() => {
+            let eyeColor = "FFFFFF";
+            let eyeSize = "256";  
+            let headColor = "FFFFFF";  
+            let headSize = "256";  
+            let beardSize = "256";  
+            let tailColor = "FFFFFF";  
+            let tailAccentColor = "FFFFFF";  
+            let tailSize = "256";  
+            let bodyColor = "FFFFFF";  
+            let bodyAccentColor = "FFFFFF";  
+            let stripeType = "256";  
+            let hungerness = "256";  
+            let fragility = "256";  
+            let fertility = "256";  
+            let appeal = "256";
+
+            const pisi = "FFFFFF256FFFFFF256256FFFFFFFFFFFF256FFFFFFFFFFFF256256256256256"
+            
+            await contract.decodeAttributes(pisi)
+
+            assert.equal(await contract.getEyeColor(pisi), eyeColor)
+            assert.equal(await contract.getEyeSize(pisi), eyeSize)
+            assert.equal(await contract.getHeadColor(pisi), headColor)
+            assert.equal(await contract.getHeadSize(pisi), headSize)
+            assert.equal(await contract.getBeardSize(pisi), beardSize)
+            assert.equal(await contract.getTailColor(pisi), tailColor)
+            assert.equal(await contract.getTailAccentColor(pisi), tailAccentColor)
+            assert.equal(await contract.getTailSize(pisi), tailSize)
+            assert.equal(await contract.getBodyColor(pisi), bodyColor)
+            assert.equal(await contract.getBodyAccentColor(pisi), bodyAccentColor)
+            assert.equal(await contract.getStripeType(pisi), stripeType)
+            assert.equal(await contract.getHungerness(pisi), hungerness)
+            assert.equal(await contract.getFragility(pisi), fragility)
+            assert.equal(await contract.getFertility(pisi), fertility)
+            assert.equal(await contract.getAppeal(pisi), appeal)
+        })
+    })
 })
