@@ -50,26 +50,26 @@ contract Pisi is ERC721Full {
     function decodeAttributes(string memory hashedAttr) public returns (string memory){
         PisiAttributes memory pa = PisiAttributes(
             getNumberBetween(hashedAttr, 0, 6), // eyeColor, 
-            getNumberBetween(hashedAttr, 6, 9), // eyeSize, 
+            getNumberBetween(hashedAttr, 6, 8), // eyeSize, 
             
-            getNumberBetween(hashedAttr, 9, 15), // headColor, 
-            getNumberBetween(hashedAttr, 15, 18), // headSize, 
+            getNumberBetween(hashedAttr, 8, 14), // headColor, 
+            getNumberBetween(hashedAttr, 14, 16), // headSize, 
             
-            getNumberBetween(hashedAttr, 18, 21), // beardSize, *****
+            getNumberBetween(hashedAttr, 16, 18), // beardSize, *****
             
-            getNumberBetween(hashedAttr, 21, 27), // tailColor, 
-            getNumberBetween(hashedAttr, 27, 33), // tailAccentColor, *****
-            getNumberBetween(hashedAttr, 33, 36), // tailSize, 
+            getNumberBetween(hashedAttr, 18, 24), // tailColor, 
+            getNumberBetween(hashedAttr, 24, 30), // tailAccentColor, *****
+            getNumberBetween(hashedAttr, 30, 32), // tailSize, 
             
-            getNumberBetween(hashedAttr, 36, 42), // bodyColor, 
-            getNumberBetween(hashedAttr, 42, 48), // bodyAccentColor, 
+            getNumberBetween(hashedAttr, 32, 38), // bodyColor, 
+            getNumberBetween(hashedAttr, 38, 44), // bodyAccentColor, 
     
-            getNumberBetween(hashedAttr, 48, 51), // stripeType, 
+            getNumberBetween(hashedAttr, 44, 46), // stripeType, 
 
-            getNumberBetween(hashedAttr, 51, 54), // hungerness, 
-            getNumberBetween(hashedAttr, 54, 57), // fragility, 
-            getNumberBetween(hashedAttr, 57, 60), // fertility, 
-            getNumberBetween(hashedAttr, 60, 63) // appeal
+            getNumberBetween(hashedAttr, 46, 48), // hungerness, 
+            getNumberBetween(hashedAttr, 48, 50), // fragility, 
+            getNumberBetween(hashedAttr, 50, 52), // fertility, 
+            getNumberBetween(hashedAttr, 52, 54) // appeal
         );
 
         _pisiCollection[hashedAttr] = pa;
@@ -100,36 +100,38 @@ contract Pisi is ERC721Full {
     function randomAttributes() public returns (string memory) {
         uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));
 
-        string memory randColor = uint2hexstr(rand % (16 ** 6));
-        string memory randInt = uint2str(rand % (2 ** 8));
+        return decodeAttributes(uint2str(rand));
 
-        return decodeAttributes(string(abi.encodePacked(
-            abi.encodePacked(
-                randColor, // eyeColor,
-                randInt, // eyeSize,
+        // string memory randColor = uint2hexstr(rand % (16 ** 6));
+        // string memory randInt = uint2str(rand % (2 ** 8));
 
-                randColor, // headColor,
-                randInt, // headSize,
+        // return decodeAttributes(string(abi.encodePacked(
+        //     abi.encodePacked(
+        //         randColor, // eyeColor,
+        //         randInt, // eyeSize,
 
-                randInt, // beardSize,
+        //         randColor, // headColor,
+        //         randInt, // headSize,
 
-                randColor, // tailColor,
-                randColor, // tailAccentColor,
-                randInt  // tailSize,
-            ), 
+        //         randInt, // beardSize,
+
+        //         randColor, // tailColor,
+        //         randColor, // tailAccentColor,
+        //         randInt  // tailSize,
+        //     ), 
             
-            abi.encodePacked(
-                randColor, // bodyColor,
-                randColor, // bodyAccentColor,
+        //     abi.encodePacked(
+        //         randColor, // bodyColor,
+        //         randColor, // bodyAccentColor,
 
-                randInt, // stripeType,
+        //         randInt, // stripeType,
 
-                randInt, // hungerness,
-                randInt, // fragility,
-                randInt, // fertility,
-                randInt  // appeal
-            )
-        )));
+        //         randInt, // hungerness,
+        //         randInt, // fragility,
+        //         randInt, // fertility,
+        //         randInt  // appeal
+        //     )
+        // )));
     }
     
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
@@ -172,7 +174,7 @@ contract Pisi is ERC721Full {
         return string(bstr);
     }
 
-    function getNumberBetween(string memory fN, uint8 start, uint8 end) internal returns(string memory) {
+    function getNumberBetween(string memory fN, uint8 start, uint8 end) public pure returns(string memory) {
         return substring(fN, start, end);
     }
 

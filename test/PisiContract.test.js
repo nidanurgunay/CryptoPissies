@@ -71,40 +71,40 @@ contract("Color", (accounts) => {
     describe("attributes", async() => {
         it("decode attribute", async() => {
             let eyeColor = "FFFFFF";
-            let eyeSize = "256";  
+            let eyeSize = "25";  
             let headColor = "FFFFFF";  
-            let headSize = "256";  
-            let beardSize = "256";  
+            let headSize = "25";  
+            let beardSize = "25";  
             let tailColor = "FFFFFF";  
             let tailAccentColor = "FFFFFF";  
-            let tailSize = "256";  
+            let tailSize = "25";  
             let bodyColor = "FFFFFF";  
             let bodyAccentColor = "FFFFFF";  
-            let stripeType = "256";  
-            let hungerness = "256";  
-            let fragility = "256";  
-            let fertility = "256";  
-            let appeal = "256";
+            let stripeType = "25";  
+            let hungerness = "25";  
+            let fragility = "25";  
+            let fertility = "25";  
+            let appeal = "25";
 
-            const pisi = "FFFFFF256FFFFFF256256FFFFFFFFFFFF256FFFFFFFFFFFF256256256256256"
+            const pisi = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF2525252525"
             
             await contract.decodeAttributes(pisi)
 
-            assert.equal(await contract.getEyeColor(pisi), eyeColor)
-            assert.equal(await contract.getEyeSize(pisi), eyeSize)
-            assert.equal(await contract.getHeadColor(pisi), headColor)
-            assert.equal(await contract.getHeadSize(pisi), headSize)
-            assert.equal(await contract.getBeardSize(pisi), beardSize)
-            assert.equal(await contract.getTailColor(pisi), tailColor)
-            assert.equal(await contract.getTailAccentColor(pisi), tailAccentColor)
-            assert.equal(await contract.getTailSize(pisi), tailSize)
-            assert.equal(await contract.getBodyColor(pisi), bodyColor)
-            assert.equal(await contract.getBodyAccentColor(pisi), bodyAccentColor)
-            assert.equal(await contract.getStripeType(pisi), stripeType)
-            assert.equal(await contract.getHungerness(pisi), hungerness)
-            assert.equal(await contract.getFragility(pisi), fragility)
-            assert.equal(await contract.getFertility(pisi), fertility)
-            assert.equal(await contract.getAppeal(pisi), appeal)
+            assert.equal(await contract.getEyeColor(pisi), eyeColor, "Eye color is correct")
+            assert.equal(await contract.getEyeSize(pisi), eyeSize, "Eye size is correct")
+            assert.equal(await contract.getHeadColor(pisi), headColor, "Head color is correct")
+            assert.equal(await contract.getHeadSize(pisi), headSize, "Head size is correct")
+            assert.equal(await contract.getBeardSize(pisi), beardSize, "Beard size is correct")
+            assert.equal(await contract.getTailColor(pisi), tailColor, "Tail color is correct")
+            assert.equal(await contract.getTailAccentColor(pisi), tailAccentColor, "Tail Accent color is correct")
+            assert.equal(await contract.getTailSize(pisi), tailSize, "Tail size is correct")
+            assert.equal(await contract.getBodyColor(pisi), bodyColor, "Body color is correct")
+            assert.equal(await contract.getBodyAccentColor(pisi), bodyAccentColor, "Body Accent color is correct")
+            assert.equal(await contract.getStripeType(pisi), stripeType, "Stripe type is correct")
+            assert.equal(await contract.getHungerness(pisi), hungerness, "Hungerness is correct")
+            assert.equal(await contract.getFragility(pisi), fragility, "Fragility is correct")
+            assert.equal(await contract.getFertility(pisi), fertility, "Fertility is correct")
+            assert.equal(await contract.getAppeal(pisi), appeal, "Appeal is correct")
         })
     })
 })
