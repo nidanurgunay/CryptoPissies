@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+pragma experimental ABIEncoderV2;
 
 import "./ERC721Full.sol";
 
@@ -35,6 +36,8 @@ contract Pisi is ERC721Full {
     }
     
     mapping(string => PisiAttributes) _pisiCollection;
+    mapping(address => string[]) _personalCollection;
+    mapping(address => uint8) _personalCollectionSize;
 
     string[] public _pisiHashesToSell;
     uint256 public onSaleCount;
@@ -84,6 +87,8 @@ contract Pisi is ERC721Full {
         );
 
         _pisiCollection[hashedAttr] = pa;
+        _personalCollection[owner].push(hashedAttr);
+        _personalCollectionSize[owner]++;
 
         return hashedAttr;
     }
@@ -116,13 +121,25 @@ contract Pisi is ERC721Full {
         removeElement(pisiHash, msg.sender);
     }
 
-    function transferPisi(string memory pisiHash) internal {
+    function transferPisi(string memory pisiHash) public payable {
         require(_pisiCollection[pisiHash].price <= msg.value);
         require(_pisiCollection[pisiHash].onSale == true);
+
+        address oldOwner = _pisiCollection[pisiHash].owner;
 
         _pisiCollection[pisiHash].owner = msg.sender;
 
         removeElement(pisiHash, msg.sender);
+
+        removeElementFromArray(pisiHash, _personalCollection[oldOwner], _personalCollectionSize[oldOwner]);
+        _personalCollectionSize[oldOwner]--;
+
+        _personalCollection[msg.sender].push(pisiHash);
+        _personalCollectionSize[msg.sender]++;
+    }
+
+    function gatherPersonalPisis() public view returns (string[] memory, uint8) {
+        return (_personalCollection[msg.sender], _personalCollectionSize[msg.sender]);
     }
 
     // HELPER FUNCTIONS
@@ -131,27 +148,31 @@ contract Pisi is ERC721Full {
         require(_pisiCollection[pisiHashToRemove].owner == _owner);
         require(_pisiCollection[pisiHashToRemove].onSale);
         require(onSaleCount > 0);
-
-        bool move = false;
         
         _pisiCollection[pisiHashToRemove].price = 0;
         _pisiCollection[pisiHashToRemove].onSale = false;
 
-        if(onSaleCount == 1){
-            _pisiHashesToSell.pop();
+        removeElementFromArray(pisiHashToRemove, _pisiHashesToSell, onSaleCount);
+
+        onSaleCount -= 1;
+    }
+
+    function removeElementFromArray(string memory toRemove, string[] storage removeFrom, uint count) internal {
+        bool move = false;
+
+        if(count == 1){
+            removeFrom.pop();
         } else{
-            for (uint i = 0; i < onSaleCount - 1; i++){
-                if(keccak256(bytes(_pisiHashesToSell[i])) == keccak256(bytes(pisiHashToRemove))){
+            for (uint i = 0; i < count - 1; i++){
+                if(keccak256(bytes(removeFrom[i])) == keccak256(bytes(toRemove))){
                     move = true;
                 }
 
                 if(move){
-                    _pisiHashesToSell[i] = _pisiHashesToSell[i + 1];
+                    removeFrom[i] = removeFrom[i + 1];
                 }
             }
         }
-
-        onSaleCount -= 1;
     }
     
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
