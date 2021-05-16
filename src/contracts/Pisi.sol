@@ -3,8 +3,8 @@ pragma solidity ^0.5.0;
 import "./ERC721Full.sol";
 
 contract Pisi is ERC721Full {
-    string[] public colors;
-    mapping(string => bool) _colorExists;
+    // string[] public colors;
+    // mapping(string => bool) _colorExists;
 
     struct PisiAttributes {
         string eyeColor;
@@ -28,26 +28,33 @@ contract Pisi is ERC721Full {
         string fragility;
         string fertility;
         string appeal;
+
+        address payable owner;
+        uint256 price;
+        bool onSale;
     }
     
     mapping(string => PisiAttributes) _pisiCollection;
 
-    constructor() ERC721Full("Color", "COLOR") public {
+    string[] public _pisiHashesToSell;
+    uint256 public onSaleCount;
+
+    constructor() ERC721Full("Pisi", "PISI") public {
 
     }
 
     function mint(string memory _color) public {
-        // Require unique color
-        require(!_colorExists[_color]);
-        // Color - add it
-        uint _id = colors.push(_color);
-        // Call the mint function
-        _mint(msg.sender, _id);
-        // Color - track it
-        _colorExists[_color] = true;
+        // // Require unique color
+        // require(!_colorExists[_color]);
+        // // Color - add it
+        // uint _id = colors.push(_color);
+        // // Call the mint function
+        // _mint(msg.sender, _id);
+        // // Color - track it
+        // _colorExists[_color] = true;
     }
 
-    function decodeAttributes(string memory hashedAttr) public returns (string memory){
+    function decodeAttributes(string memory hashedAttr, address payable owner) internal returns (string memory){
         PisiAttributes memory pa = PisiAttributes(
             getNumberBetween(hashedAttr, 0, 6), // eyeColor, 
             getNumberBetween(hashedAttr, 6, 8), // eyeSize, 
@@ -69,7 +76,11 @@ contract Pisi is ERC721Full {
             getNumberBetween(hashedAttr, 46, 48), // hungerness, 
             getNumberBetween(hashedAttr, 48, 50), // fragility, 
             getNumberBetween(hashedAttr, 50, 52), // fertility, 
-            getNumberBetween(hashedAttr, 52, 54) // appeal
+            getNumberBetween(hashedAttr, 52, 54), // appeal
+
+            owner,
+            0,
+            false
         );
 
         _pisiCollection[hashedAttr] = pa;
@@ -77,61 +88,70 @@ contract Pisi is ERC721Full {
         return hashedAttr;
     }
 
-    function encodeAttributes(
-        uint24 eyeColor,
-        uint8 eyeSize,
-        uint24 headColor,
-        uint8 headSize,
-        uint8 beardSize,
-        uint24 tailColor,
-        uint24 tailAccentColor,
-        uint8 tailSize,
-        uint24 bodyColor,
-        uint24 bodyAccentColor,
-        uint8 stripeType,
-        uint8 hungerness,
-        uint8 fragility,
-        uint8 fertility,
-        uint8 appeal
-        ) public returns (uint216){
-        
+    function testAttributes(string memory hashedAttr) public returns (string memory) {
+        address(this).delegatecall(abi.encodeWithSignature("decodeAttributes(string, address payable)", hashedAttr, msg.sender));
+
+        return decodeAttributes(hashedAttr, msg.sender);
     }
 
     function randomAttributes() public returns (string memory) {
-        uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty)));
+        uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));
 
-        return decodeAttributes(uint2str(rand));
+        return decodeAttributes(uint2str(rand), msg.sender);
+    }
 
-        // string memory randColor = uint2hexstr(rand % (16 ** 6));
-        // string memory randInt = uint2str(rand % (2 ** 8));
+    function putToSale(string memory pisiHash, uint256 price) public {
+        require(_pisiCollection[pisiHash].owner == msg.sender);
 
-        // return decodeAttributes(string(abi.encodePacked(
-        //     abi.encodePacked(
-        //         randColor, // eyeColor,
-        //         randInt, // eyeSize,
+        _pisiCollection[pisiHash].price = price;
+        _pisiCollection[pisiHash].onSale = true;
+        onSaleCount += 1;
+        
+        _pisiHashesToSell.push(pisiHash);
+    }
 
-        //         randColor, // headColor,
-        //         randInt, // headSize,
+    function putDownFromSale(string memory pisiHash) public {
+        require(_pisiCollection[pisiHash].owner == msg.sender);
 
-        //         randInt, // beardSize,
+        removeElement(pisiHash, msg.sender);
+    }
 
-        //         randColor, // tailColor,
-        //         randColor, // tailAccentColor,
-        //         randInt  // tailSize,
-        //     ), 
-            
-        //     abi.encodePacked(
-        //         randColor, // bodyColor,
-        //         randColor, // bodyAccentColor,
+    function transferPisi(string memory pisiHash) internal {
+        require(_pisiCollection[pisiHash].price <= msg.value);
+        require(_pisiCollection[pisiHash].onSale == true);
 
-        //         randInt, // stripeType,
+        _pisiCollection[pisiHash].owner = msg.sender;
 
-        //         randInt, // hungerness,
-        //         randInt, // fragility,
-        //         randInt, // fertility,
-        //         randInt  // appeal
-        //     )
-        // )));
+        removeElement(pisiHash, msg.sender);
+    }
+
+    // HELPER FUNCTIONS
+
+    function removeElement(string memory pisiHashToRemove, address payable _owner) internal {
+        require(_pisiCollection[pisiHashToRemove].owner == _owner);
+        require(_pisiCollection[pisiHashToRemove].onSale);
+        require(onSaleCount > 0);
+
+        bool move = false;
+        
+        _pisiCollection[pisiHashToRemove].price = 0;
+        _pisiCollection[pisiHashToRemove].onSale = false;
+
+        if(onSaleCount == 1){
+            _pisiHashesToSell.pop();
+        } else{
+            for (uint i = 0; i < onSaleCount - 1; i++){
+                if(keccak256(bytes(_pisiHashesToSell[i])) == keccak256(bytes(pisiHashToRemove))){
+                    move = true;
+                }
+
+                if(move){
+                    _pisiHashesToSell[i] = _pisiHashesToSell[i + 1];
+                }
+            }
+        }
+
+        onSaleCount -= 1;
     }
     
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
@@ -151,31 +171,6 @@ contract Pisi is ERC721Full {
             _i /= 10;
         }
         return string(bstr);
-    }
-
-    function uint2hexstr(uint i) internal pure returns (string memory) {
-        if (i == 0) return "0";
-        uint j = i;
-        uint length;
-        while (j != 0) {
-            length++;
-            j = j >> 4;
-        }
-        uint mask = 15;
-        bytes memory bstr = new bytes(length);
-        uint k = length - 1;
-        uint numStart = 48;
-        uint letterStarn = 65;
-        while (i != 0){
-            uint curr = (i & mask);
-            bstr[k--] = curr > 9 ? byte(uint8(55 + curr)) : byte(uint8(48 + curr)); // 55 = 65 - 10
-            i = i >> 4;
-        }
-        return string(bstr);
-    }
-
-    function getNumberBetween(string memory fN, uint8 start, uint8 end) public pure returns(string memory) {
-        return substring(fN, start, end);
     }
 
     function getEyeColor(string memory pisiHash) public view returns(string memory) {
@@ -238,7 +233,11 @@ contract Pisi is ERC721Full {
         return _pisiCollection[pisiHash].appeal;
     }
 
-    function substring(string memory str, uint startIndex, uint endIndex) pure internal returns (string memory) {
+    function getOwner(string memory pisiHash) public view returns(address) {
+        return _pisiCollection[pisiHash].owner;
+    }
+
+    function getNumberBetween(string memory str, uint startIndex, uint endIndex) pure internal returns (string memory) {
         bytes memory strBytes = bytes(str);
         bytes memory result = new bytes(endIndex-startIndex);
         for(uint i = startIndex; i < endIndex; i++) {
