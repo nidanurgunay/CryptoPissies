@@ -25,10 +25,10 @@ contract Pisi is ERC721Full {
 
         string stripeType;
         
-        string hungerness;
-        string fragility;
-        string fertility;
-        string appeal;
+        uint8 hungerness;
+        uint8 fragility;
+        uint8 fertility;
+        uint8 appeal;
 
         address payable owner;
         uint256 price;
@@ -46,15 +46,10 @@ contract Pisi is ERC721Full {
 
     }
 
-    function mint(string memory _color) public {
-        // // Require unique color
-        // require(!_colorExists[_color]);
-        // // Color - add it
-        // uint _id = colors.push(_color);
-        // // Call the mint function
-        // _mint(msg.sender, _id);
-        // // Color - track it
-        // _colorExists[_color] = true;
+    function mint() public returns (string memory) {
+        uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));
+
+        return decodeAttributes(uint2str(rand), msg.sender);
     }
 
     function decodeAttributes(string memory hashedAttr, address payable owner) internal returns (string memory){
@@ -76,10 +71,10 @@ contract Pisi is ERC721Full {
     
             getNumberBetween(hashedAttr, 44, 46), // stripeType, 
 
-            getNumberBetween(hashedAttr, 46, 48), // hungerness, 
-            getNumberBetween(hashedAttr, 48, 50), // fragility, 
-            getNumberBetween(hashedAttr, 50, 52), // fertility, 
-            getNumberBetween(hashedAttr, 52, 54), // appeal
+            str2Hexuint(getNumberBetween(hashedAttr, 46, 48)), // hungerness, 
+            str2Hexuint(getNumberBetween(hashedAttr, 48, 50)), // fragility, 
+            str2Hexuint(getNumberBetween(hashedAttr, 50, 52)), // fertility, 
+            str2Hexuint(getNumberBetween(hashedAttr, 52, 54)), // appeal
 
             owner,
             0,
@@ -97,12 +92,6 @@ contract Pisi is ERC721Full {
         address(this).delegatecall(abi.encodeWithSignature("decodeAttributes(string, address payable)", hashedAttr, msg.sender));
 
         return decodeAttributes(hashedAttr, msg.sender);
-    }
-
-    function randomAttributes() public returns (string memory) {
-        uint256 rand = uint256(keccak256(abi.encodePacked(block.timestamp, block.difficulty, msg.sender)));
-
-        return decodeAttributes(uint2str(rand), msg.sender);
     }
 
     function putToSale(string memory pisiHash, uint256 price) public {
@@ -136,6 +125,26 @@ contract Pisi is ERC721Full {
 
         _personalCollection[msg.sender].push(pisiHash);
         _personalCollectionSize[msg.sender]++;
+    }
+
+    function breed(string memory pisiHash1, string memory pisiHash2) public returns (string memory) {
+        require(_pisiCollection[pisiHash1].owner == msg.sender);
+        require(_pisiCollection[pisiHash2].owner == msg.sender);
+        require(_pisiCollection[pisiHash1].appeal > 0 && _pisiCollection[pisiHash2].appeal > 0);
+
+        uint8 rand = uint8(uint256(keccak256(abi.encodePacked(block.timestamp, _pisiCollection[pisiHash1].fertility, _pisiCollection[pisiHash2].fertility))) % 256);
+
+        require(uint16(rand) < uint16(_pisiCollection[pisiHash1].appeal) + uint16(_pisiCollection[pisiHash2].appeal));
+
+        if (_pisiCollection[pisiHash1].fertility > _pisiCollection[pisiHash2].fertility && _pisiCollection[pisiHash1].appeal > _pisiCollection[pisiHash2].appeal) {
+            return decodeAttributes(pisiHash1, msg.sender);
+        }else if(_pisiCollection[pisiHash1].fertility > _pisiCollection[pisiHash2].fertility && _pisiCollection[pisiHash1].appeal < _pisiCollection[pisiHash2].appeal) {
+            return decodeAttributes(string(abi.encodePacked(getNumberBetween(pisiHash1, 0, 30), getNumberBetween(pisiHash2, 30, 63))), msg.sender);
+        } else if(_pisiCollection[pisiHash1].fertility < _pisiCollection[pisiHash2].fertility && _pisiCollection[pisiHash1].appeal > _pisiCollection[pisiHash2].appeal) {
+            return decodeAttributes(string(abi.encodePacked(getNumberBetween(pisiHash1, 30, 63), getNumberBetween(pisiHash2, 0, 30))), msg.sender);
+        } else {
+            return decodeAttributes(pisiHash2, msg.sender);
+        }
     }
 
     function gatherPersonalPisis() public view returns (string[] memory, uint8) {
@@ -194,6 +203,75 @@ contract Pisi is ERC721Full {
         return string(bstr);
     }
 
+    function str2Hexuint(string memory _input) internal pure returns (uint8) {
+        if(keccak256(bytes(_input)) == keccak256(bytes(""))) {
+            return 0;
+        }
+
+        uint8 res = 0;
+
+        if(bytes(_input)[0] <= 0x39){
+            res += (uint8(bytes(_input)[0]) - 0x30) * 16;
+        }else {
+            res += (uint8(bytes(_input)[0]) - 0x31) * 16;
+        }
+
+        if(bytes(_input)[0] <= 0x39){
+            res += (uint8(bytes(_input)[1]) - 0x30);
+        }else {
+            res += (uint8(bytes(_input)[1]) - 0x31);
+        }
+
+        return res;
+    }
+
+    // function getBodyAttr(string memory pisiHash, uint8 attCode) public view returns(string memory){
+    //     require(attCode < 7);
+
+    //     if(attCode == 0){ // eyeColor;
+    //         return _pisiCollection[pisiHash].eyeColor;
+    //     } else if(attCode == 1){ // eyeSize
+    //         return _pisiCollection[pisiHash].eyeSize;
+    //     } else if(attCode == 2){ // headColor
+    //         return _pisiCollection[pisiHash].headColor;
+    //     } else if(attCode == 3){ // headSize
+    //         return _pisiCollection[pisiHash].headSize;
+    //     } else if(attCode == 4){ // beardSize
+    //         return _pisiCollection[pisiHash].beardSize;
+    //     } else if(attCode == 5){ // tailColor
+    //         return _pisiCollection[pisiHash].tailColor;
+    //     } else if(attCode == 6){ // tailAccentColor
+    //         return _pisiCollection[pisiHash].tailAccentColor;
+    //     } else if(attCode == 6){ // tailSize
+    //         return _pisiCollection[pisiHash].tailSize;
+    //     } else if(attCode == 6){ // bodyColor
+    //         return _pisiCollection[pisiHash].bodyColor;
+    //     } else if(attCode == 6){ // bodyAccentColor
+    //         return _pisiCollection[pisiHash].bodyAccentColor;
+    //     } else if(attCode == 6){ // stripeType
+    //         return _pisiCollection[pisiHash].stripeType;
+    //     }else {
+    //         return "";
+    //     }
+    // }
+
+    // function getCharAttr(string memory pisiHash, uint8 attCode) public view returns(uint8){
+    //     require(_pisiCollection[pisiHash].owner <= msg.sender);
+    //     require(attCode < 4);
+
+    //     if(attCode == 0){ // hungerness;
+    //         return _pisiCollection[pisiHash].hungerness;
+    //     } else if(attCode == 1){ // fragility
+    //         return _pisiCollection[pisiHash].fragility;
+    //     } else if(attCode == 2){ // fertility
+    //         return _pisiCollection[pisiHash].fertility;
+    //     } else if(attCode == 3){ // appeal
+    //         return _pisiCollection[pisiHash].appeal;
+    //     } else {
+    //         return 0;
+    //     }
+    // }
+
     function getEyeColor(string memory pisiHash) public view returns(string memory) {
         return _pisiCollection[pisiHash].eyeColor;
     }
@@ -238,24 +316,24 @@ contract Pisi is ERC721Full {
         return _pisiCollection[pisiHash].stripeType;
     }
 
-    function getHungerness(string memory pisiHash) public view returns(string memory) {
+    function getHungerness(string memory pisiHash) public view returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
         return _pisiCollection[pisiHash].hungerness;
     }
 
-    function getFragility(string memory pisiHash) public view returns(string memory) {
+    function getFragility(string memory pisiHash) public view returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
 
         return _pisiCollection[pisiHash].fragility;
     }
 
-    function getFertility(string memory pisiHash) public view returns(string memory) {
+    function getFertility(string memory pisiHash) public view returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
 
         return _pisiCollection[pisiHash].fertility;
     }
 
-    function getAppeal(string memory pisiHash) public view returns(string memory) {
+    function getAppeal(string memory pisiHash) public view returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
 
         return _pisiCollection[pisiHash].appeal;

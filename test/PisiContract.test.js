@@ -81,12 +81,12 @@ contract("Pisi", (accounts) => {
             let bodyColor = "FFFFFF";  
             let bodyAccentColor = "FFFFFF";  
             let stripeType = "25";  
-            let hungerness = "25";  
-            let fragility = "25";  
-            let fertility = "25";  
-            let appeal = "25";
+            let hungerness = 25;  
+            let fragility = 25;  
+            let fertility = 25;  
+            let appeal = 25;
 
-            const pisi = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF2525252525"
+            const pisi = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF2519191919"
             
             await contract.testAttributes(pisi)
 
@@ -101,19 +101,18 @@ contract("Pisi", (accounts) => {
             assert.equal(await contract.getBodyColor(pisi), bodyColor, "Body color is correct")
             assert.equal(await contract.getBodyAccentColor(pisi), bodyAccentColor, "Body Accent color is correct")
             assert.equal(await contract.getStripeType(pisi), stripeType, "Stripe type is correct")
-            assert.equal(await contract.getHungerness(pisi), hungerness, "Hungerness is correct")
-            assert.equal(await contract.getFragility(pisi), fragility, "Fragility is correct")
-            assert.equal(await contract.getFertility(pisi), fertility, "Fertility is correct")
-            assert.equal(await contract.getAppeal(pisi), appeal, "Appeal is correct")
-            console.log(accounts[0])
+            assert.equal((await contract.getHungerness(pisi)).toNumber(), hungerness, "Hungerness is correct")
+            assert.equal((await contract.getFragility(pisi)).toNumber(), fragility, "Fragility is correct")
+            assert.equal((await contract.getFertility(pisi)).toNumber(), fertility, "Fertility is correct")
+            assert.equal((await contract.getAppeal(pisi)).toNumber(), appeal, "Appeal is correct")
             assert.equal(await contract.getOwner(pisi), accounts[0], "Owner is correct")
         })
 
         describe("selling", async() => {
             it("put on sale", async() => {
-                await contract.randomAttributes()
+                await contract.mint()
                 
-                const pisiHash = await contract.randomAttributes.call()
+                const pisiHash = await contract.mint.call()
 
                 await contract.putToSale(pisiHash, 100)
 
@@ -124,9 +123,9 @@ contract("Pisi", (accounts) => {
             })
 
             it("put down sale", async() => {
-                await contract.randomAttributes()
+                await contract.mint()
                 
-                const pisiHash = await contract.randomAttributes.call()
+                const pisiHash = await contract.mint.call()
 
                 await contract.putToSale(pisiHash, 100)
 
@@ -134,6 +133,56 @@ contract("Pisi", (accounts) => {
 
                 assert.equal(await contract.onSaleCount(), 0, "sale count decreased")
                 await contract._pisiHashesToSell(0).should.be.rejected
+            })
+        })
+    })
+
+    describe("actions", async() => {
+        describe("breeding", async() => {
+            it("pisi1 is better", async() => {
+                const pisi1 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FFFF"
+                const pisi2 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FEFE"
+            
+                await contract.testAttributes(pisi1)
+                await contract.testAttributes(pisi2)
+
+                await contract.breed(pisi1, pisi2)
+
+                const newPisi = await contract.breed.call(pisi1, pisi2)
+
+                assert.equal(newPisi, pisi1)
+            })
+            
+            it("pisi2 is better", async() => {
+                const pisi1 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FEFE"
+                const pisi2 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FFFF"
+            
+                await contract.testAttributes(pisi1)
+                await contract.testAttributes(pisi2)
+
+                await contract.breed(pisi1, pisi2)
+
+                const newPisi = await contract.breed.call(pisi1, pisi2)
+
+                assert.equal(newPisi, pisi2)
+            })
+            
+            it("no appeal", async() => {
+                let pisi1 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FE00"
+                let pisi2 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FFFF"
+            
+                await contract.testAttributes(pisi1)
+                await contract.testAttributes(pisi2)
+
+                await contract.breed(pisi1, pisi2).should.be.rejected
+
+                pisi1 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FEFF"
+                pisi2 = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF251919FF00"
+            
+                await contract.testAttributes(pisi1)
+                await contract.testAttributes(pisi2)
+
+                await contract.breed(pisi1, pisi2).should.be.rejected
             })
         })
     })
