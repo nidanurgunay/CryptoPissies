@@ -68,8 +68,8 @@ contract("Pisi", (accounts) => {
             assert.equal(await contract.getStripeType(pisi), stripeType, "Stripe type is correct")
             assert.equal((await contract.getHungerness(pisi)).toNumber(), hungerness, "Hungerness is correct")
             assert.equal((await contract.getFragility(pisi)).toNumber(), fragility, "Fragility is correct")
-            assert.equal((await contract.getFertility(pisi)).toNumber(), fertility, "Fertility is correct")
-            assert.equal((await contract.getAppeal(pisi)).toNumber(), appeal, "Appeal is correct")
+            assert.equal((await contract.getFertility.call(pisi)).toNumber(), 255, "Fertility is correct")
+            assert.equal((await contract.getAppeal.call(pisi)).toNumber(), appeal, "Appeal is correct")
             assert.equal(await contract.getOwner(pisi), accounts[0], "Owner is correct")
         })
 
@@ -148,6 +148,16 @@ contract("Pisi", (accounts) => {
                 await contract.testAttributes(pisi2)
 
                 await contract.breed(pisi1, pisi2).should.be.rejected
+            })
+        })
+
+        describe("feeding", async() => {
+            it("can be fed", async() => {
+                const pisi = "FFFFFF25FFFFFF2525FFFFFFFFFFFF25FFFFFFFFFFFF2519191919"
+            
+                await contract.testAttributes(pisi)
+
+                assert.equal((await contract.getFertility.call(pisi)).toNumber(), 255)
             })
         })
     })

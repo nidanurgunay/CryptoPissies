@@ -33,6 +33,7 @@ contract Pisi is ERC721Full {
         address payable owner;
         uint256 price;
         bool onSale;
+        uint lastFeedingTime;
     }
     
     mapping(string => PisiAttributes) _pisiCollection;
@@ -78,7 +79,8 @@ contract Pisi is ERC721Full {
 
             owner,
             0,
-            false
+            false,
+            block.timestamp
         );
 
         _pisiCollection[hashedAttr] = pa;
@@ -94,7 +96,7 @@ contract Pisi is ERC721Full {
         return decodeAttributes(hashedAttr, msg.sender);
     }
 
-    function putToSale(string memory pisiHash, uint256 price) public {
+    function putToSale(string memory pisiHash, uint256 price) public decreaseAppeal(pisiHash) {
         require(_pisiCollection[pisiHash].owner == msg.sender);
 
         _pisiCollection[pisiHash].price = price;
@@ -104,13 +106,13 @@ contract Pisi is ERC721Full {
         _pisiHashesToSell.push(pisiHash);
     }
 
-    function putDownFromSale(string memory pisiHash) public {
+    function putDownFromSale(string memory pisiHash) public decreaseAppeal(pisiHash) {
         require(_pisiCollection[pisiHash].owner == msg.sender);
 
         removeElement(pisiHash, msg.sender);
     }
 
-    function transferPisi(string memory pisiHash) public payable {
+    function transferPisi(string memory pisiHash) public payable decreaseAppeal(pisiHash) {
         require(_pisiCollection[pisiHash].price <= msg.value);
         require(_pisiCollection[pisiHash].onSale == true);
 
@@ -129,7 +131,7 @@ contract Pisi is ERC721Full {
         _personalCollectionSize[msg.sender]++;
     }
 
-    function breed(string memory pisiHash1, string memory pisiHash2) public returns (string memory) {
+    function breed(string memory pisiHash1, string memory pisiHash2) public decreaseAppeal(pisiHash1) decreaseAppeal(pisiHash2) returns (string memory) {
         require(_pisiCollection[pisiHash1].owner == msg.sender);
         require(_pisiCollection[pisiHash2].owner == msg.sender);
         require(_pisiCollection[pisiHash1].appeal > 0 && _pisiCollection[pisiHash2].appeal > 0);
@@ -151,6 +153,32 @@ contract Pisi is ERC721Full {
 
     function gatherPersonalPisis() public view returns (string[] memory, uint8) {
         return (_personalCollection[msg.sender], _personalCollectionSize[msg.sender]);
+    }
+
+    function feed(string memory pisiHash) public payable {
+        require(_pisiCollection[pisiHash].owner == msg.sender);
+
+        uint costOfFeeding = 0.002 ether;
+
+        require(msg.value >= costOfFeeding);
+
+        address payable thisAddr = address(uint160(address(this)));
+
+        thisAddr.transfer(costOfFeeding);
+
+        _pisiCollection[pisiHash].lastFeedingTime == block.timestamp;
+    }
+
+    modifier decreaseAppeal(string memory pisiHash) {
+        if(_pisiCollection[pisiHash].fertility > 0){
+            _pisiCollection[pisiHash].fertility = 255 - uint8((block.timestamp - _pisiCollection[pisiHash].lastFeedingTime) / 1 hours) * (_pisiCollection[pisiHash].hungerness / 64);
+            _pisiCollection[pisiHash].lastFeedingTime = block.timestamp;
+        } else{
+            _pisiCollection[pisiHash].fertility = 0;
+            _pisiCollection[pisiHash].appeal = 0;
+        }
+
+        _;
     }
 
     // HELPER FUNCTIONS
@@ -329,13 +357,13 @@ contract Pisi is ERC721Full {
         return _pisiCollection[pisiHash].fragility;
     }
 
-    function getFertility(string memory pisiHash) public view returns(uint8) {
+    function getFertility(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
 
         return _pisiCollection[pisiHash].fertility;
     }
 
-    function getAppeal(string memory pisiHash) public view returns(uint8) {
+    function getAppeal(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
         require(_pisiCollection[pisiHash].owner <= msg.sender);
 
         return _pisiCollection[pisiHash].appeal;
