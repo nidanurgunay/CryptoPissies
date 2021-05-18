@@ -114,6 +114,8 @@ contract Pisi is ERC721Full {
         require(_pisiCollection[pisiHash].price <= msg.value);
         require(_pisiCollection[pisiHash].onSale == true);
 
+        _pisiCollection[pisiHash].owner.transfer(_pisiCollection[pisiHash].price);
+
         address oldOwner = _pisiCollection[pisiHash].owner;
 
         _pisiCollection[pisiHash].owner = msg.sender;
