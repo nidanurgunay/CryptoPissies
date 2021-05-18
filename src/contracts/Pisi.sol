@@ -239,18 +239,25 @@ contract Pisi is ERC721Full {
     }
 
     function getHungerness(string memory pisiHash) public view returns(string memory) {
+        require(_pisiCollection[pisiHash].owner <= msg.sender);
         return _pisiCollection[pisiHash].hungerness;
     }
 
     function getFragility(string memory pisiHash) public view returns(string memory) {
+        require(_pisiCollection[pisiHash].owner <= msg.sender);
+
         return _pisiCollection[pisiHash].fragility;
     }
 
     function getFertility(string memory pisiHash) public view returns(string memory) {
+        require(_pisiCollection[pisiHash].owner <= msg.sender);
+
         return _pisiCollection[pisiHash].fertility;
     }
 
     function getAppeal(string memory pisiHash) public view returns(string memory) {
+        require(_pisiCollection[pisiHash].owner <= msg.sender);
+
         return _pisiCollection[pisiHash].appeal;
     }
 
