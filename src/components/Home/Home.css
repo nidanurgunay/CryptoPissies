@@ -1,0 +1,54 @@
+.cardContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.marketCard {
+    text-align: -webkit-center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.container {
+    width: 100%;
+}
+
+.Header {
+    font-size: 70px;
+    font-family: inherit;
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    color: #343a40;
+    text-decoration-line: overline;
+}
+
+.Header2 {
+    font-size: 30px;
+    font-family: inherit;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.Text {
+    font-size: 20px;
+    font-family: inherit;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.button {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.buttongroup {
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    margin-top: 30px;
+}
