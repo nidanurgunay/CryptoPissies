@@ -1,113 +1,23 @@
 import React, { Component } from 'react';
-import Web3 from "web3";
-import Pisi from "../abis/Pisi.json"
-import './App.css';
-
+import { Route, Switch } from "react-router-dom";
+import Home from "./Home/Home.js"
+import NavBar from "./NavBar/NavBar.js"
+import Pissi from "./pisideneme/pissies.js"
+import About from "./About/About.js"
+import MyPisies from "./PisiCollection/MyPisies.js"
 class App extends Component {
-  async componentDidMount() {
-    await this.loadWeb3()
-    await this.loadBlockchainData()
-  }
-
-  async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum)
-      await window.ethereum.enable()
-    }else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
-    }else {
-      window.alert("Non-Ethereum browser detected. You should consider using MetaMask!")
-    }
-  }
-
-  async loadBlockchainData() {
-    const web3 = window.web3
-    const accounts = await web3.eth.getAccounts()
-    console.log(accounts)
-    this.setState({ account: accounts[0] })
-
-    const networkId = await web3.eth.net.getId()
-    const networkData = Pisi.networks[networkId]
-    if (networkData){
-      const abi = Pisi.abi
-      const address = networkData.address
-      const contract = new web3.eth.Contract(abi, address)
-      this.setState({ contract })
-      const totalSupply = await contract.methods.totalSupply().call()
-      this.setState({ totalSupply })
-
-      for (var i = 0; i < totalSupply; i++){
-          const color = await contract.methods.colors(i).call()
-          this.setState({ colors: [...this.state.colors, color] })
-      }
-      
-      console.log(this.state.colors)
-    } else {
-      window.alert("Smart contract is not deployed in this network!!!")
-    }
-  }
-
-  mint = (color) => {
-    console.log(color)
-    this.state.contract.methods.mint(color).send({ from: this.state.account })
-      .once("receipt", (receipt) => {
-        this.setState({
-          colors: [...this.state.colors, color]
-        })
-      })
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { items: [], account: "0x0", contract: null, colors: []}
-  }
-
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Color Tokens
-          </a>
-          <ul className="navbar-nav px-3">
-            <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
-              <small className="text-white"><span id="account">{this.state.account}</span></small>
-            </li>
-          </ul>
-        </nav>
-        <div className="container-fluid mt-5">
-          <div className="row">
-            <main role="main" className="col-lg-12 d-flex text-center">
-              <div className="content mr-auto ml-auto">
-                <form onSubmit= {(event) => {
-                  event.preventDefault()
-                  const color = this.color.value
-                  this.mint(color)
-                }}>
-                  <input type= "text" className= "form-control mb-1" placeholder= "e.g. #FFFFFF" ref= {(input) => { this.color = input }}/>
-                  <input type= "submit" className= "btn btn-block btn-primary" value= "MINT"/>
-                </form>
-              </div>
-            </main>
-          </div>
-          <hr/>
-          <div className= "row text-center">
-            { this.state.colors.map((color, key) => {
-              return (
-                <div key= {key} className= "col-md-3 mb-3">
-                  <div className= "token" style= {{backgroundColor: color}}></div>
-                  <div>{color}</div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </div>
+      <>
+        <NavBar></NavBar>
+        <br />
+        <Switch>
+          <Route path="/About" component={About}></Route>
+          <Route path="/Pisi" component={Pissi}></Route>
+          <Route path="/MyPisies" component={MyPisies}></Route>
+          <Route path="/" component={Home}></Route>
+        </Switch>
+      </>
     );
   }
 }
