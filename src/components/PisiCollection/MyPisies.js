@@ -42,7 +42,7 @@ class MyPisi extends Component {
         const { pissieImgs } = this.state;
         return (
             <div className="container">
-                <img src={Cats} alt="cat" style={{ width: "100%", marginBottom: "30px" }}></img>
+                <img src={Cats} alt="cat" style={{ width: "100%", marginBottom: "80px" }}></img>
                 <div className="Header">
                     My Pisi Collection
         </div>
