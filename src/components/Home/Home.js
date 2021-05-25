@@ -20,15 +20,6 @@ import Cats from "../../Cats.jpg"
 
 class Home extends Component {
 
-  mint = (color) => {
-    console.log(color)
-    this.state.contract.methods.mint(color).send({ from: this.state.account })
-      .once("receipt", (receipt) => {
-        this.setState({
-          colors: [...this.state.colors, color]
-        })
-      })
-  }
 
   constructor(props) {
     super(props)
@@ -82,6 +73,13 @@ class Home extends Component {
   }
 
 
+  // mint = () => {
+  
+  //   this.state.contract.methods.mint().send({ from: this.state.account })
+  //     .once("receipt", (receipt) => {
+  //      console.log("mint receipt",receipt)
+  //     })
+  // }
 
   render() {
     const { pissieImgs } = this.state;

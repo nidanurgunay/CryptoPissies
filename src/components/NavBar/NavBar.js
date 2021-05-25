@@ -7,51 +7,51 @@ import logo from "../../logo2.png"
 import "./Navbar.css"
 class NavBar extends Component {
 
-    async componentDidMount() {
-        await this.loadWeb3()
-        await this.loadBlockchainData()
-    }
+    // async componentDidMount() {
+    //     await this.loadWeb3()
+    //     await this.loadBlockchainData()
+    // }
 
-    async loadWeb3() {
-        if (window.ethereum) {
-            window.web3 = new Web3(window.ethereum)
-            await window.ethereum.enable()
-        } else if (window.web3) {
-            window.web3 = new Web3(window.web3.currentProvider)
-        } else {
-            window.alert("Non-Ethereum browser detected. You should consider using MetaMask!")
-        }
-    }
+    // async loadWeb3() {
+    //     if (window.ethereum) {
+    //         window.web3 = new Web3(window.ethereum)
+    //         await window.ethereum.enable()
+    //     } else if (window.web3) {
+    //         window.web3 = new Web3(window.web3.currentProvider)
+    //     } else {
+    //         window.alert("Non-Ethereum browser detected. You should consider using MetaMask!")
+    //     }
+    // }
 
-    async loadBlockchainData() {
-        const web3 = window.web3
-        const accounts = await web3.eth.getAccounts()
-        console.log(accounts)
-        this.setState({ account: accounts[0] })
+    // async loadBlockchainData() {
+    //     const web3 = window.web3
+    //     const accounts = await web3.eth.getAccounts()
+    //     console.log(accounts)
+    //     this.setState({ account: accounts[0] })
 
-        const networkId = await web3.eth.net.getId()
-        const networkData = Pisi.networks[networkId]
-        if (networkData) {
-            const abi = Pisi.abi
-            const address = networkData.address
-            const contract = new web3.eth.Contract(abi, address)
-            this.setState({ contract })
-            const totalSupply = await contract.methods.totalSupply().call()
-            this.setState({ totalSupply })
+    //     const networkId = await web3.eth.net.getId()
+    //     const networkData = Pisi.networks[networkId]
+    //     if (networkData) {
+    //         const abi = Pisi.abi
+    //         const address = networkData.address
+    //         const contract = new web3.eth.Contract(abi, address)
+    //         this.setState({ contract })
+    //         const totalSupply = await contract.methods.totalSupply().call()
+    //         this.setState({ totalSupply })
 
-            for (var i = 0; i < totalSupply; i++) {
-                const color = await contract.methods.colors(i).call()
-                this.setState({ colors: [...this.state.colors, color] })
-            }
+    //         for (var i = 0; i < totalSupply; i++) {
+    //             const color = await contract.methods.colors(i).call()
+    //             this.setState({ colors: [...this.state.colors, color] })
+    //         }
 
-            console.log(this.state.colors)
-        } else {
-            window.alert("Smart contract is not deployed in this network!!!")
-        }
-    }
+    //         console.log(this.state.colors)
+    //     } else {
+    //         window.alert("Smart contract is not deployed in this network!!!")
+    //     }
+    // }
     constructor(props) {
         super(props)
-        this.state = { items: [], account: "0x0", contract: null, colors: [] }
+        this.state = { items: [], account: "0x0", contract: null }
     }
 
     render() {
@@ -59,7 +59,7 @@ class NavBar extends Component {
             <div className="Navdiv">
 
                 <Navbar className="nav" bg="dark" variant="dark">
-                    <img src={logo} width="60px" height="45px" />
+                    <img src={logo} width="60px" height="45px" alt="logo"/>
 
                     <Nav.Link eventKey="disabled" className="pisi"disabled>
                     CryptoPisies

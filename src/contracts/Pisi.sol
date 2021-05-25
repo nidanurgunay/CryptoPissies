@@ -78,15 +78,18 @@ contract Pisi is ERC721Full {
             str2Hexuint(getNumberBetween(hashedAttr, 52, 54)), // appeal
 
             owner,
-            0,
-            false,
+            100,
+            true,
             block.timestamp
         );
 
         _pisiCollection[hashedAttr] = pa;
         _personalCollection[owner].push(hashedAttr);
         _personalCollectionSize[owner]++;
+        
+        onSaleCount += 1;
 
+        _pisiHashesToSell.push(hashedAttr);
         return hashedAttr;
     }
 

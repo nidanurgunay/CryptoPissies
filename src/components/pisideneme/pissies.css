@@ -2,3 +2,19 @@
     width: 150px;
     height: auto;
 }
+
+.pisicontainer {
+    position: relative;
+}
+
+.pisibody {
+    position: absolute;
+}
+
+.pisieye {
+    position: absolute;
+}
+
+.pisimouth {
+    position: absolute;
+}

@@ -9,25 +9,28 @@ import beard from "../../cattributes/mouth/beard.svg";
 import dali from "../../cattributes/mouth/dali.svg";
 
 
-
-
 import "./pissies.css"
 class Pissi extends Component {
 
+    componentDidMount = () => {
+        console.log("props", this.props)
+    }
     render() {
+        console.log("props", this.props)
         return (
             <>
-            <svg>
-            <img className ="pissi"src={calicol} alt="nullcat"></img>
-            <img className ="pissi"src={fabulouseye} alt="nullcat"></img>
-            <img className ="pissi"src={dali} alt="nullcat"></img>
-            </svg>
-                <img className ="pissi"src={nullcat} alt="nullcat"></img>
-               
-                <img className ="pissi"src={lemonade} alt="nullcat"></img>
-                <img className ="pissi"src={crazyeye} alt="nullcat"></img>
-                <img className ="pissi"src={beard} alt="nullcat"></img>
-               
+                <div className="pisicontainer">
+                    <div className="pisibody">
+                        <img className="pissi" src={calicol} alt="nullcat"></img>
+                    </div>
+                    <div className="pisieye">
+                        <img className="pissi" src={crazyeye} alt="nullcat"></img>
+                    </div>
+                    <div className="pisimouth">
+                        <img className="pissi" src={dali} alt="nullcat"></img>
+                    </div>
+                </div>
+
             </>
         );
     }
