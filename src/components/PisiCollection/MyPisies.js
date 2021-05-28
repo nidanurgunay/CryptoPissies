@@ -5,6 +5,8 @@ import "./MyPisies.css"
 import Web3 from "web3";
 import Pisi from "../../abis/Pisi.json";
 import Cats from "../../Cats.jpg"
+import ProgressBar from 'react-bootstrap/ProgressBar'
+
 ////////////*****  ***  PISSIESSS  *** *****///////////
 
 import chartreux_calicool from "../../cattributes/body/chartreux-calicool.svg";
@@ -75,6 +77,23 @@ class MyPisi extends Component {
             myPisiBody: [],
             myPisiBeard: [],
             myPisiEye: [],
+            hungerness: [],
+            fragility: [],
+            fertility: [],
+            appeal: [],
+            eyeColor: [],
+            eyeSize: [],
+            headColor: [],
+            headSize: [],
+            beardSize: [],
+            beardSize: [],
+            bodyColor: [],
+            tailColor: [],
+            tailAccentColor: [],
+            tailSize: [],
+            bodyAccentColor: [],
+            stripeType: [],
+            gene: [false],
             pissieCatBody: [
                 chartreux_calicool,
                 chartreux_jaguar,
@@ -229,30 +248,34 @@ class MyPisi extends Component {
             var PPisiesBeard = [];
 
             console.log("acc", localStorage.getItem("accounttaddress"))
-            const pisiesSale = await contract.methods.gatherPersonalPisis().call({ from: localStorage.getItem("accounttaddress") });
 
-            const pisiessale = pisiesSale[0];
-            console.log("pisisale", pisiessale)
-            var pisicount = pisiessale.length;
+            console.log("count", count)
+            var { gene } = this.state;
 
-            for (var i = 0; i < pisicount; i++) {
-                const Sale = await contract.methods.getSale(pisiessale[i]).call()
+            for (var i = 0; i < count; i++) {
+                const pisiessale = await contract.methods._pisiHashesToSell(i).call();
+                gene[i] = false;
+                const Sale = await contract.methods.getSale(pisiessale).call()
                 if (Sale) {
-                    const eyecolor = await contract.methods.getEyeColor(pisiessale[i]).call();
-                    const beard = await contract.methods.getBeardSize(pisiessale[i]).call();
-                    const body = await contract.methods.getBodyColor(pisiessale[i]).call();
+                    const eyecolor = await contract.methods.getEyeColor(pisiessale).call();
+                    const beard = await contract.methods.getBeardSize(pisiessale).call();
+                    const body = await contract.methods.getBodyColor(pisiessale).call();
 
-                    myPissie.push(pisiessale[i])
+                    myPissie.push(pisiessale)
                     PPisiesEye.push(eyecolor)
                     PPisiesBody.push(beard)
                     PPisiesBeard.push(body)
                 }
             }
-            this.setState({ pisicount: pisicount })
+            // this.setState({ pisicount: pisicount })
             this.setState({ myPisies: myPissie })
             this.setState({ myPisiBody: PPisiesBody })
             this.setState({ myPisiBeard: PPisiesBeard })
             this.setState({ myPisiEye: PPisiesEye })
+            this.setState({ gene: gene })
+            console.log("pissies", myPissie)
+            console.log("gene", gene)
+
 
 
         } else {
@@ -261,28 +284,15 @@ class MyPisi extends Component {
 
     }
 
-    handlePisi = () => {
-        const { pisiSale, pisiBodySale, pisiBeardSale, pisiEyeSale } = this.state;
 
-        pisiSale.map((pisi, index) =>
-
-            <div className="pisicontainer">
-                <div className="pisibody">
-                    <img className="pissi" src={this.state.pissieCatBody[this.handleBody(pisiBodySale[index])]} alt="body"></img>
-                </div>
-                <div className="pisieye">
-                    <img className="pissi" src={this.state.pissieCatEye[this.handleEye(pisiEyeSale[index])]} alt="eye"></img>
-                </div>
-                <div className="pisimouth">
-                    <img className="pissi" src={this.state.pissieCatMouth[this.handleMouth(pisiBeardSale[index])]} alt="mouth"></img>
-                </div>
-            </div>
-        )
-
-
-
+    handleProgresCcolor = (value) => {
+        if (value < 25)
+            return "danger";
+        else if (value < 45)
+            return "warning";
+        else
+            return "success";
     }
-
     handleBody = (hash) => {
         var value = hash,
             sum = 0;
@@ -331,6 +341,64 @@ class MyPisi extends Component {
 
     }
 
+    async handleGene(i) {
+        var { gene } = this.state;
+        var check = gene[i];
+        console.log("check",check)
+        gene[i] = !gene[i];
+        this.setState({ gene: gene });
+        if (check) {
+            const web3 = window.web3
+
+            var { eyeColor, eyeSize, headColor, headSize, beardSize, bodyColor, tailColor,
+                tailAccentColor, tailSize, bodyAccentColor, stripeType } = this.state;
+
+
+            const contract = this.state.contract;
+
+            const EyeColor = await contract.methods.getEyeColor(this.state.myPisies[i]).call();
+            const EyeSize = await contract.methods.getEyeSize(this.state.myPisies[i]).call();
+            const HeadColor = await contract.methods.getHeadColor(this.state.myPisies[i]).call();
+            const HeadSize = await contract.methods.getHeadSize(this.state.myPisies[i]).call();
+            const BeardSize = await contract.methods.getBeardSize(this.state.myPisies[i]).call();
+            const TailColor = await contract.methods.getTailColor(this.state.myPisies[i]).call();
+            const TailAccentColor = await contract.methods.getTailAccentColor(this.state.myPisies[i]).call();
+            const TailSize = await contract.methods.getTailSize(this.state.myPisies[i]).call();
+            const BodyColor = await contract.methods.getBodyColor(this.state.myPisies[i]).call();
+            const BodyAccentColor = await contract.methods.getBodyAccentColor(this.state.myPisies[i]).call();
+            const StripeType = await contract.methods.getStripeType(this.state.myPisies[i]).call();
+
+
+
+            eyeColor[i]=EyeColor;
+            eyeSize[i]=EyeSize;
+            headColor[i]=HeadColor;
+            headSize[i]=HeadSize;
+            beardSize[i]=BeardSize;
+            bodyColor[i]=BodyColor;
+            tailColor[i]=TailColor;
+            tailAccentColor[i]=TailAccentColor;
+            tailSize[i]=TailSize;
+            bodyAccentColor[i]=BodyAccentColor;
+            stripeType[i]=StripeType;
+
+            this.setState({ eyeColor: eyeColor })
+            this.setState({ eyeSize: eyeSize })
+            this.setState({ headColor: headColor })
+            this.setState({ headSize: headSize })
+            this.setState({ beardSize: beardSize })
+            this.setState({ bodyColor: bodyColor })
+            this.setState({ tailColor: tailColor })
+            this.setState({ tailAccentColor: tailAccentColor })
+            this.setState({ tailSize: tailSize })
+            this.setState({ bodyAccentColor: bodyAccentColor })
+            this.setState({ stripeType: stripeType })
+        }
+    }
+    handleColor = (color) => {
+        color = "#" + color;
+        return color;
+    }
     render() {
         return (
             <div className="container">
@@ -338,41 +406,109 @@ class MyPisi extends Component {
                 <div className="Header">
                     My Pisi Collection
         </div>
-                <div className="cardContainer" style={{ justifyContent: "space-between" }}>
+                <div className="cardContainer" style={{ justifyContent: "center" }}>
                     {
                         this.state.myPisies.map((pisi, index) => (
                             <div className="marketCard ">
-                                <Card style={{ width: '20rem', backgroundColor: "#faf2e6" }}>
+                                <Card style={{ width: '40rem', backgroundColor: "#faf2e6" }}>
 
                                     <Card.Body style={{ marginTop: "0px" }}>
-                                        <div className="pisicontainer">
-                                            <div className="pisibody">
-                                                <img className="pissi" src={this.state.pissieCatBody[this.handleBody(this.state.myPisiBody[index])]} alt="body"></img>
+                                        <div className="pisiContainer">
+                                            <div className="pisiBody">
+                                                <img className="Pissi" src={this.state.pissieCatBody[this.handleBody(this.state.myPisiBody[index])]} alt="body"></img>
                                             </div>
                                             <div className="pisieye">
-                                                <img className="pissi" src={this.state.pissieCatEye[this.handleEye(this.state.myPisiEye[index])]} alt="eye"></img>
+                                                <img className="Pissi" src={this.state.pissieCatEye[this.handleEye(this.state.myPisiEye[index])]} alt="eye"></img>
                                             </div>
                                             <div className="pisimouth">
-                                                <img className="pissi" src={this.state.pissieCatMouth[this.handleMouth(this.state.myPisiBeard[index])]} alt="mouth"></img>
+                                                <img className="Pissi" src={this.state.pissieCatMouth[this.handleMouth(this.state.myPisiBeard[index])]} alt="mouth"></img>
                                             </div>
                                         </div>
                                     </Card.Body>
                                     <Card.Body style={{ marginTop: "-20px" }}>
-                                        {/* <Card.Title style={{ fontFamily: "inherit" }}>{pisi}</Card.Title> */}
-                                        <Card.Text>
-                                            Your Pisi <p className="pisiname"> {this.state.pissieName[this.handleName(this.state.myPisies[index])]} </p>is Here! <br></br>
-
+                                        <Card.Text style={{ fontSize: "2rem", color: " #885086" }}>
+                                            Your Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.myPisies[index])]} </p>is Here! <br></br>
+                                            {/* <p className="pisiName"> {this.state.price}  <i className="fab fa-ethereum"></i></p> */}
                                         </Card.Text>
-                                        <div style={{ justifyContent: "space-between" }}>
-                                            <Button variant="primary" style={{ backgroundColor: "rgb(74 159 185 / 75%)", borderColor: "rgb(74 159 185 / 75%)", marginTop: "10px" }}>Breed Me!</Button>
-                                            <Button variant="primary" style={{ backgroundColor: "#f7bc56", borderColor: "#f7bc56", marginTop: "10px" }}>Check My Genes!</Button>
-                                            <Button variant="primary" style={{ backgroundColor: "rgb(182 133 183)", borderColor: "rgb(182 133 183)", marginTop: "10px" }}>Check My Features!</Button>
-                                            <Button variant="info" style={{ backgroundColor: "rgb(79 160 100 / 75%)", borderColor: "rgb(79 160 100 / 75%)", marginTop: "10px" }} onClick={this.handleinputSale}>Feed Me!</Button>
-                                            <Button variant="info" style={{ backgroundColor: "rgb(247 108 86 / 84%)", borderColor: "rgb(247 108 86 / 84%)", marginTop: "10px" }} onClick={this.handleinputSale}>Sell Me!</Button>
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(42)} label={"HUNGERNESS   " + `${42}%`} animated now={43} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(22)} label={"FRAGILITY   " + `${22}%`} animated now={22} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(66)} label={"FERTILITY   " + `${66}%`} animated now={66} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(36)} label={"APPEAL   " + `${36}%`} animated now={36} />
+                                        {this.state.genes}
+                                        <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
+                                            <Button variant="info" onClick={() => this.Buy()}>Put Me on Sale</Button>
+                                            <Button variant="primary" style={{ backgroundColor: "#f7bc56", borderColor: "#f7bc56" }} onClick={() => this.handleGene(index)}>Check My Genes!</Button>
                                         </div>
+
+                                        {this.state.gene[index] === true ?
+                                            <div className="genes">
+                                                <table >
+                                                    <tr>
+                                                        <td><div className="gene">Eye Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.eyeColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.eyeColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Head Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.headColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.headColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Body Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.bodyColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Body Accent Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyAccentColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.bodyAccentColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Tail Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.tailColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Tail Accent Color:</div>  </td>
+                                                        <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailAccentColor[index]) }}></div></td>
+                                                        <td><div className="Gene">#{this.state.tailAccentColor}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Eye Size:</div>  </td>
+                                                        <td><div></div></td>
+                                                        <td><div className="Gene">{this.state.eyeSize[index]}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Head Size:</div>  </td>
+                                                        <td><div></div></td>
+                                                        <td><div className="Gene">{this.state.headSize[index]}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Beard Size:</div>  </td>
+                                                        <td><div></div></td>
+                                                        <td><div className="Gene">  {this.state.beardSize[index]}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Tail Size:</div>  </td>
+                                                        <td><div></div></td>
+                                                        <td><div className="Gene">{this.state.tailSize[index]}</div></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><div className="gene">Stripe Type:</div>  </td>
+                                                        <td><div></div></td>
+                                                        <td><div className="Gene">{this.state.stripeType[index]}</div></td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                            : null}
+
+
+
                                     </Card.Body>
                                 </Card>
                             </div>
+
                         )
                         )
                     }
