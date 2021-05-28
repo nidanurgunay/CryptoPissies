@@ -52,3 +52,56 @@
     margin-bottom: 50px;
     margin-top: 30px;
 }
+
+p {
+    color: #c9afc8;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    background-color: #f9e0bb;
+    border-radius: 30px;
+}
+
+.Progress {
+    margin: 5px;
+}
+
+.gene {
+    color: #508588;
+    display: flex;
+    font-size: 20px;
+}
+
+.Gene {
+    color: #885086;
+    display: flex;
+    font-size: 20px;
+}
+
+.genes {
+    width: fit-content;
+    background-color: antiquewhite;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.color {
+    width: 26px;
+    height: 26px;
+    background-color: black;
+    border-radius: 13px;
+    margin-top: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+
+/* .price {
+    background-color: #ce6a23;
+    border-radius: 10px;
+}
+
+.name {
+    background-color: #ce6a83;
+    border-radius: 10px;
+} */

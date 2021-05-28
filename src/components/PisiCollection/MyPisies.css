@@ -51,5 +51,72 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin-bottom: 50px;
-    margin-top: 30px;
+    margin-top: 50px;
+}
+
+.pissi {
+    width: 15rem;
+    height: auto;
+    padding: -50px;
+    margin-top: -50px;
+    margin-bottom: -50px;
+}
+
+.Pissi {
+    width: 35rem;
+    height: auto;
+    padding: -100px;
+    margin-top: -100px;
+    margin-bottom: -100px;
+}
+
+.pisicontainer {
+    border-radius: 30px;
+    position: relative;
+    width: 15rem;
+    height: 10rem;
+    justify-content: center;
+    display: flex;
+    background-color: #e9eae5;
+}
+
+.pisiContainer {
+    border-radius: 20px;
+    position: relative;
+    width: 35rem;
+    height: 25rem;
+    justify-content: center;
+    display: flex;
+    background-color: #e9eae5;
+}
+
+.pisibody {
+    position: absolute;
+}
+
+.pisiBody {
+    position: absolute;
+}
+
+.pisieye {
+    position: absolute;
+}
+
+.pisimouth {
+    position: absolute;
+}
+
+.pisiname {
+    display: contents;
+    font-size: x-large;
+    margin-bottom: -0.6rem;
+    font-weight: 200;
+}
+
+p {
+    color: #881c84;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    background-color: #f9e0bb;
+    border-radius: 30px;
 }

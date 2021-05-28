@@ -1,8 +1,6 @@
 import Navbar from 'react-bootstrap/Navbar';
 import React, { Component } from 'react';
 import Nav from 'react-bootstrap/Nav'
-import Web3 from "web3";
-import Pisi from "../../abis/Pisi.json";
 import logo from "../../logo2.png"
 import "./Navbar.css"
 class NavBar extends Component {

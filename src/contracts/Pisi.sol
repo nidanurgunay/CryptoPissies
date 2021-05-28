@@ -78,7 +78,7 @@ contract Pisi is ERC721Full {
             str2Hexuint(getNumberBetween(hashedAttr, 52, 54)), // appeal
 
             owner,
-            100,
+            10,
             true,
             block.timestamp
         );
@@ -116,8 +116,8 @@ contract Pisi is ERC721Full {
     }
 
     function transferPisi(string memory pisiHash) public payable decreaseAppeal(pisiHash) {
-        require(_pisiCollection[pisiHash].price <= msg.value);
-        require(_pisiCollection[pisiHash].onSale == true);
+        //require(_pisiCollection[pisiHash].price <= msg.value);
+        //require(_pisiCollection[pisiHash].onSale == true);
 
         _pisiCollection[pisiHash].owner.transfer(_pisiCollection[pisiHash].price);
 
@@ -350,30 +350,36 @@ contract Pisi is ERC721Full {
     }
 
     function getHungerness(string memory pisiHash) public view returns(uint8) {
-        require(_pisiCollection[pisiHash].owner <= msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender);
         return _pisiCollection[pisiHash].hungerness;
     }
 
     function getFragility(string memory pisiHash) public view returns(uint8) {
-        require(_pisiCollection[pisiHash].owner <= msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender);
 
         return _pisiCollection[pisiHash].fragility;
     }
 
     function getFertility(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
-        require(_pisiCollection[pisiHash].owner <= msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender);
 
         return _pisiCollection[pisiHash].fertility;
     }
 
     function getAppeal(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
-        require(_pisiCollection[pisiHash].owner <= msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender);
 
         return _pisiCollection[pisiHash].appeal;
     }
 
     function getOwner(string memory pisiHash) public view returns(address) {
         return _pisiCollection[pisiHash].owner;
+    }
+    function getSale(string memory pisiHash) public view returns(bool) {
+        return _pisiCollection[pisiHash].onSale;
+    }
+ function getPrice(string memory pisiHash) public view returns(uint256) {
+        return _pisiCollection[pisiHash].price;
     }
 
     function getNumberBetween(string memory str, uint startIndex, uint endIndex) pure internal returns (string memory) {
