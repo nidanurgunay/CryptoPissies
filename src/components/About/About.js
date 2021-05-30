@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import lemonade from "../../cattributes/colors/lemonade.svg";
 import Cats from "../../Cats.jpg"
 import "../Home/Home.css"
 import Modal from 'react-modal';

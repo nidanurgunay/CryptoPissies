@@ -401,7 +401,7 @@ class Pissi extends Component {
                             </Card.Body>
                             <Card.Body style={{ marginTop: "-20px" }}>
                                 <Card.Text style={{ fontSize: "2rem", color: " #885086" }}>
-                                    Your Future Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.pisihas)]} </p>is Here! <br></br>
+                                    Your Future Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.pisihash)]} </p>is Here! <br></br>
                                     <p className="pisiName"> {this.state.price}  <i className="fab fa-ethereum"></i></p>
                                 </Card.Text>
                                 <ProgressBar className="Progress" variant={this.handleProgresCcolor(42)} label={"HUNGERNESS   " + `${42}%`} animated now={43} />

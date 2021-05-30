@@ -51,7 +51,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     margin-bottom: 50px;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .pissi {
@@ -70,6 +70,14 @@
     margin-bottom: -100px;
 }
 
+.Pissi_ {
+    width: 20rem;
+    height: auto;
+    padding: -30px;
+    margin-top: -30px;
+    margin-bottom: -30px;
+}
+
 .pisicontainer {
     border-radius: 30px;
     position: relative;
@@ -85,6 +93,16 @@
     position: relative;
     width: 35rem;
     height: 25rem;
+    justify-content: center;
+    display: flex;
+    background-color: #e9eae5;
+}
+
+.pisi_Container {
+    border-radius: 20px;
+    position: relative;
+    width: 20rem;
+    height: 15rem;
     justify-content: center;
     display: flex;
     background-color: #e9eae5;
