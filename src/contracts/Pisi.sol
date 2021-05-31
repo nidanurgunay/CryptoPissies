@@ -100,7 +100,7 @@ contract Pisi is ERC721Full {
     }
 
     function putToSale(string memory pisiHash, uint256 price) public decreaseAppeal(pisiHash) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         _pisiCollection[pisiHash].price = price;
         _pisiCollection[pisiHash].onSale = true;
@@ -110,15 +110,15 @@ contract Pisi is ERC721Full {
     }
 
     function putDownFromSale(string memory pisiHash) public decreaseAppeal(pisiHash) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         removeElement(pisiHash, msg.sender);
     }
 
     function transferPisi(string memory pisiHash) public payable decreaseAppeal(pisiHash) {
-        require(_pisiCollection[pisiHash].price <= msg.value);
-        require(_pisiCollection[pisiHash].onSale == true);
-        require(_pisiCollection[pisiHash].owner != msg.sender);
+        require(_pisiCollection[pisiHash].price <= msg.value, "Provided value is less than the price this pisi has!");
+        require(_pisiCollection[pisiHash].onSale, "This pisi is not on the sale right now!");
+        require(_pisiCollection[pisiHash].owner != msg.sender, "You are the owner of this pisi");
 
         _pisiCollection[pisiHash].owner.transfer(_pisiCollection[pisiHash].price);
 
@@ -136,13 +136,13 @@ contract Pisi is ERC721Full {
     }
 
     function breed(string memory pisiHash1, string memory pisiHash2) public decreaseAppeal(pisiHash1) decreaseAppeal(pisiHash2) returns (string memory) {
-        require(_pisiCollection[pisiHash1].owner == msg.sender);
-        require(_pisiCollection[pisiHash2].owner == msg.sender);
-        require(_pisiCollection[pisiHash1].appeal > 0 && _pisiCollection[pisiHash2].appeal > 0);
+        require(_pisiCollection[pisiHash1].owner == msg.sender, "You are not the owner of the first pisi");
+        require(_pisiCollection[pisiHash2].owner == msg.sender, "You are not the owner of the second pisi");
+        require(_pisiCollection[pisiHash1].appeal > 0 && _pisiCollection[pisiHash2].appeal > 0, "One of the pissies in a possition of no appeal!");
 
         uint8 rand = uint8(uint256(keccak256(abi.encodePacked(block.timestamp, _pisiCollection[pisiHash1].fertility, _pisiCollection[pisiHash2].fertility))) % 256);
 
-        require(uint16(rand) < uint16(_pisiCollection[pisiHash1].appeal) + uint16(_pisiCollection[pisiHash2].appeal));
+        require(uint16(rand) < uint16(_pisiCollection[pisiHash1].appeal) + uint16(_pisiCollection[pisiHash2].appeal), "You are out of luck!");
 
         if (_pisiCollection[pisiHash1].fertility > _pisiCollection[pisiHash2].fertility && _pisiCollection[pisiHash1].appeal > _pisiCollection[pisiHash2].appeal) {
             return decodeAttributes(pisiHash1, msg.sender);
@@ -160,7 +160,7 @@ contract Pisi is ERC721Full {
     }
 
     function feed(string memory pisiHash) public payable {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         uint costOfFeeding = 0.002 ether;
 
@@ -188,9 +188,9 @@ contract Pisi is ERC721Full {
     // HELPER FUNCTIONS
 
     function removeElement(string memory pisiHashToRemove, address payable _owner) internal {
-        require(_pisiCollection[pisiHashToRemove].owner == _owner);
-        require(_pisiCollection[pisiHashToRemove].onSale);
-        require(onSaleCount > 0);
+        require(_pisiCollection[pisiHashToRemove].owner == _owner, "You are not the owner of this pisi");
+        require(_pisiCollection[pisiHashToRemove].onSale, "This pisi is not on the sale!");
+        require(onSaleCount > 0, "There is no pisi up for sale, contact with the admin!");
         
         _pisiCollection[pisiHashToRemove].price = 0;
         _pisiCollection[pisiHashToRemove].onSale = false;
@@ -351,24 +351,24 @@ contract Pisi is ERC721Full {
     }
 
     function getHungerness(string memory pisiHash) public view returns(uint8) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
         return _pisiCollection[pisiHash].hungerness;
     }
 
     function getFragility(string memory pisiHash) public view returns(uint8) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         return _pisiCollection[pisiHash].fragility;
     }
 
     function getFertility(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         return _pisiCollection[pisiHash].fertility;
     }
 
     function getAppeal(string memory pisiHash) public decreaseAppeal(pisiHash) returns(uint8) {
-        require(_pisiCollection[pisiHash].owner == msg.sender);
+        require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
 
         return _pisiCollection[pisiHash].appeal;
     }
@@ -379,9 +379,10 @@ contract Pisi is ERC721Full {
     function getSale(string memory pisiHash) public view returns(bool) {
         return _pisiCollection[pisiHash].onSale;
     }
- function getPrice(string memory pisiHash) public view returns(uint256) {
-        return _pisiCollection[pisiHash].price;
-    }
+
+    function getPrice(string memory pisiHash) public view returns(uint256) {
+            return _pisiCollection[pisiHash].price;
+        }
 
     function getNumberBetween(string memory str, uint startIndex, uint endIndex) pure internal returns (string memory) {
         bytes memory strBytes = bytes(str);
