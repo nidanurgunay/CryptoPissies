@@ -2075,10 +2075,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "5049:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2318,10 +2318,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "5462:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -2842,10 +2842,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "6181:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -3090,10 +3090,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "6861:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -3419,10 +3419,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "7565:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -4834,10 +4834,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "11607:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -5050,8 +5050,8 @@
         ],
         "contractDependencies": [
           372,
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC721 Non-Fungible Token Standard basic implementation\n@dev see https://eips.ethereum.org/EIPS/eip-721",
@@ -5658,10 +5658,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "14141:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6056,10 +6056,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "14613:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6362,10 +6362,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15242:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6424,7 +6424,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2897,
+                              "referencedDeclaration": 2943,
                               "src": "15318:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -6492,7 +6492,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 2897,
+                                "referencedDeclaration": 2943,
                                 "src": "15365:3:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -6592,10 +6592,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15310:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -6955,10 +6955,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15911:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -7155,7 +7155,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2897,
+                            "referencedDeclaration": 2943,
                             "src": "16411:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -7216,10 +7216,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "16397:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -7278,7 +7278,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2897,
+                            "referencedDeclaration": 2943,
                             "src": "16481:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -7372,7 +7372,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2897,
+                          "referencedDeclaration": 2943,
                           "src": "16537:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -7754,7 +7754,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2897,
+                              "referencedDeclaration": 2943,
                               "src": "17634:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -7859,10 +7859,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "17607:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -8544,10 +8544,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "19375:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -9057,10 +9057,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20302:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -9670,10 +9670,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20838:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -9801,10 +9801,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20909:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -10319,10 +10319,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "21443:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -11106,10 +11106,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "22432:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -11260,10 +11260,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "22520:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -11916,7 +11916,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2897,
+                          "referencedDeclaration": 2943,
                           "src": "23629:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -12646,8 +12646,8 @@
           }
         ],
         "contractDependencies": [
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token Standard, optional enumeration extension\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -12977,11 +12977,11 @@
           }
         ],
         "contractDependencies": [
-          372,
-          110,
-          9,
           930,
-          955
+          955,
+          372,
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token with optional enumeration extension logic\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -13436,10 +13436,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "26378:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -13848,10 +13848,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "27170:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -14074,7 +14074,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "27749:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -14417,7 +14417,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "28223:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -14716,7 +14716,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "28697:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -17070,8 +17070,8 @@
           }
         ],
         "contractDependencies": [
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token Standard, optional metadata extension\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -17347,11 +17347,11 @@
           }
         ],
         "contractDependencies": [
-          1309,
+          930,
           372,
-          110,
           9,
-          930
+          110,
+          1309
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -17991,10 +17991,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "35368:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -18239,10 +18239,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "35803:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -18474,7 +18474,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2933,
+                        "referencedDeclaration": 2979,
                         "src": "36277:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Metadata_$1434",
@@ -18872,14 +18872,14 @@
           }
         ],
         "contractDependencies": [
-          1288,
-          1309,
-          372,
-          110,
-          9,
+          1434,
           930,
           955,
-          1434
+          372,
+          9,
+          110,
+          1288,
+          1309
         ],
         "contractKind": "contract",
         "documentation": "@title Full ERC721 Token\nThis implementation includes all the required and some optional functionality of the ERC721 standard\nMoreover, it includes approve all functionality using operator terminology\n@dev see https://eips.ethereum.org/EIPS/eip-721",
@@ -20787,10 +20787,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "5049:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -21030,10 +21030,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "5462:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -21554,10 +21554,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "6181:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -21802,10 +21802,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "6861:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -22131,10 +22131,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "7565:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -23546,10 +23546,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "11607:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -23762,8 +23762,8 @@
         ],
         "contractDependencies": [
           372,
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC721 Non-Fungible Token Standard basic implementation\n@dev see https://eips.ethereum.org/EIPS/eip-721",
@@ -24370,10 +24370,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "14141:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -24768,10 +24768,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "14613:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -25074,10 +25074,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15242:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -25136,7 +25136,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2897,
+                              "referencedDeclaration": 2943,
                               "src": "15318:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -25204,7 +25204,7 @@
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
-                                "referencedDeclaration": 2897,
+                                "referencedDeclaration": 2943,
                                 "src": "15365:3:0",
                                 "typeDescriptions": {
                                   "typeIdentifier": "t_magic_message",
@@ -25304,10 +25304,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15310:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -25667,10 +25667,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "15911:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -25867,7 +25867,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2897,
+                            "referencedDeclaration": 2943,
                             "src": "16411:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -25928,10 +25928,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "16397:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -25990,7 +25990,7 @@
                             "name": "msg",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 2897,
+                            "referencedDeclaration": 2943,
                             "src": "16481:3:0",
                             "typeDescriptions": {
                               "typeIdentifier": "t_magic_message",
@@ -26084,7 +26084,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2897,
+                          "referencedDeclaration": 2943,
                           "src": "16537:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -26466,7 +26466,7 @@
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2897,
+                              "referencedDeclaration": 2943,
                               "src": "17634:3:0",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
@@ -26571,10 +26571,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "17607:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -27256,10 +27256,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "19375:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -27769,10 +27769,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20302:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -28382,10 +28382,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20838:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -28513,10 +28513,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "20909:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -29031,10 +29031,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "21443:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -29818,10 +29818,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "22432:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -29972,10 +29972,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "22520:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -30628,7 +30628,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2897,
+                          "referencedDeclaration": 2943,
                           "src": "23629:3:0",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -31358,8 +31358,8 @@
           }
         ],
         "contractDependencies": [
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token Standard, optional enumeration extension\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -31689,11 +31689,11 @@
           }
         ],
         "contractDependencies": [
-          372,
-          110,
-          9,
           930,
-          955
+          955,
+          372,
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token with optional enumeration extension logic\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -32148,10 +32148,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "26378:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -32560,10 +32560,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "27170:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -32786,7 +32786,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "27749:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -33129,7 +33129,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "28223:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -33428,7 +33428,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2929,
+                        "referencedDeclaration": 2975,
                         "src": "28697:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Enumerable_$1288",
@@ -35782,8 +35782,8 @@
           }
         ],
         "contractDependencies": [
-          110,
-          9
+          9,
+          110
         ],
         "contractKind": "contract",
         "documentation": "@title ERC-721 Non-Fungible Token Standard, optional metadata extension\n@dev See https://eips.ethereum.org/EIPS/eip-721",
@@ -36059,11 +36059,11 @@
           }
         ],
         "contractDependencies": [
-          1309,
+          930,
           372,
-          110,
           9,
-          930
+          110,
+          1309
         ],
         "contractKind": "contract",
         "documentation": null,
@@ -36703,10 +36703,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "35368:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -36951,10 +36951,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        2900,
-                        2901
+                        2946,
+                        2947
                       ],
-                      "referencedDeclaration": 2901,
+                      "referencedDeclaration": 2947,
                       "src": "35803:7:0",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
@@ -37186,7 +37186,7 @@
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2933,
+                        "referencedDeclaration": 2979,
                         "src": "36277:5:0",
                         "typeDescriptions": {
                           "typeIdentifier": "t_super$_ERC721Metadata_$1434",
@@ -37584,14 +37584,14 @@
           }
         ],
         "contractDependencies": [
-          1288,
-          1309,
-          372,
-          110,
-          9,
+          1434,
           930,
           955,
-          1434
+          372,
+          9,
+          110,
+          1288,
+          1309
         ],
         "contractKind": "contract",
         "documentation": "@title Full ERC721 Token\nThis implementation includes all the required and some optional functionality of the ERC721 standard\nMoreover, it includes approve all functionality using operator terminology\n@dev see https://eips.ethereum.org/EIPS/eip-721",
@@ -37756,7 +37756,7 @@
   },
   "networks": {},
   "schemaVersion": "3.0.2",
-  "updatedAt": "2021-05-23T06:54:17.548Z",
+  "updatedAt": "2021-05-30T13:52:20.714Z",
   "devdoc": {
     "details": "See https://eips.ethereum.org/EIPS/eip-721",
     "methods": {

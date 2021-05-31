@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Router } from 'react-router';
 import { Route, Switch } from "react-router-dom";
 import Home from "./Home/Home.js"
 import About from "./About/About.js"
@@ -7,13 +6,11 @@ import MyPisies from "./PisiCollection/MyPisies.js"
 import Pissi from "./PisiCollection/Pisi.js"
 import Web3 from "web3";
 import Pisi from "../abis/Pisi.json";
-import createHistory from 'history/createBrowserHistory';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import logo from "../logo2.png"
 import "./NavBar/Navbar.css"
-const history = createHistory();
 class App extends Component {
 
   constructor(props) {
@@ -50,11 +47,10 @@ class App extends Component {
 
 
     this.setState({ account: accounts[0] })
-    localStorage.setItem("accounttaddress", accounts[0])
+    localStorage.setItem("accountaddress", accounts[0])
     const networkId = await web3.eth.net.getId()
-    console.log("networkId", networkId)
     const networkData = Pisi.networks[networkId]
-    console.log("networkData", networkData)
+    
     if (networkData) {
       const abi = Pisi.abi
       const address = networkData.address
@@ -62,9 +58,9 @@ class App extends Component {
       const contract = new web3.eth.Contract(abi, address)
       this.setState({ contract })
       localStorage.setItem("contractAddress", networkData.address)
-       //const res = await contract.methods.mint().send({ from: this.state.account })
+      //const res = await contract.methods.mint().send({ from: this.state.account })
       //  const res1 = await contract.methods.mint().send({ from: this.state.account })
-      //  const res2 = await contract.methods.mint().send({ from: this.state.account })
+      //  const res2 = await contract.methods.mint().send({ froÛ: this.state.account })
       //  const res3 = await contract.methods.mint().send({ from: this.state.account })
       //  const res4 = await contract.methods.mint().send({ from: this.state.account })
       //  const res5 = await contract.methods.mint().send({ from: this.state.account })
@@ -98,16 +94,9 @@ class App extends Component {
     }
   }
 
-  mint = () => {
-    console.log("mintteyim", this.state.contract)
-    var res = this.state.contract.methods.mint().send({ from: this.state.account })
-      .once("receipt", (receipt) => {
-        console.log("mint receipt", receipt)
-      })
-
-  }
+ 
   render() {
-    const localaccount = localStorage.getItem("accounttaddress")
+    const localaccount = this.state.account
 
     return (
       <>

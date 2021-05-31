@@ -77,9 +77,6 @@ class Pissi extends Component {
             count: "",
             pisihash: "",
             myPisies: "",
-            myPisiBody: "",
-            myPisiBeard: "",
-            myPisiEye: "",
             hungerness: "",
             fragility: "",
             fertility: "",
@@ -96,6 +93,7 @@ class Pissi extends Component {
             tailSize: "",
             bodyAccentColor: "",
             stripeType: "",
+            transferSuccess: false,
             pissieCatBody: [
                 chartreux_calicool,
                 chartreux_jaguar,
@@ -228,9 +226,12 @@ class Pissi extends Component {
     }
     async componentDidMount() {
         await this.loadWeb3()
-        const address = localStorage.getItem("accounttaddress");
-        this.setState({ account: address })
+    
         const web3 = window.web3
+        const accounts = await web3.eth.getAccounts()
+        this.setState({ account: accounts[0] })
+        localStorage.setItem("accountaddress", accounts[0])
+    
         const networkId = await web3.eth.net.getId()
         const networkData = Pisi.networks[networkId]
 
@@ -247,33 +248,51 @@ class Pissi extends Component {
             const beard = await contract.methods.getBeardSize(pisihas).call();
             const body = await contract.methods.getBodyColor(pisihas).call();
             const Price = (await contract.methods.getPrice(pisihas).call()).toNumber();
-            // const Hungerness = (await contract.methods.getHungerness(pisihas).call()).toNumber();
-            // const Fragility = (await contract.methods.getFragility(pisihas).call()).toNumber();
-            // const Fertility = (await contract.methods.getFertility(pisihas).call()).toNumber();
-            // const Appeal = (await contract.methods.getAppeal(pisihas).call()).toNumber();
 
-            // console.log("hungerness", Hungerness)
+            const owner = await contract.methods.getOwner(pisihas).call();
+
+            if (owner === this.state.account) {
+
+                var Hungerness = (await contract.methods.getHungerness(pisihas).call({ from: this.state.account }));
+                var Fragility = (await contract.methods.getFragility(pisihas).call({ from: this.state.account }));
+                var Fertility = (await contract.methods.getFertility(pisihas).call({ from: this.state.account }));
+                var Appeal = (await contract.methods.getAppeal(pisihas).call({ from: this.state.account }));
+                
+                Hungerness= this.handlePercent(Hungerness)
+                Fragility= this.handlePercent(Fragility)
+                Fertility= this.handlePercent(Fertility)
+                Appeal= this.handlePercent(Appeal)
+             
+                this.setState({ transferSuccess: true })
+
+                this.setState({ hungerness: Hungerness })
+                this.setState({ fragility: Fragility })
+                this.setState({ fertility: Fertility })
+                this.setState({ appeal: Appeal })
+
+            }
+
 
             this.setState({ price: Price })
             this.setState({ myPisies: pisihas })
             this.setState({ myPisiBody: body })
             this.setState({ myPisiBeard: beard })
             this.setState({ myPisiEye: eyecolor })
-            // this.setState({ hungerness: Hungerness })
-            // this.setState({ fragility: Fragility })
-            // this.setState({ fertility: Fertility })
-            // this.setState({ appeal: Appeal })
+
 
         } else {
             window.alert("Smart contract is not deployed in this network!!!")
         }
 
     }
-
+    handlePercent = (num) => {
+        var res= ((num+1)/256)*100;
+        return res;
+    }
     handleProgresCcolor = (value) => {
         if (value < 25)
             return "danger";
-        else if (value < 45)
+        else if (value < 65)
             return "warning";
         else
             return "success";
@@ -326,17 +345,25 @@ class Pissi extends Component {
         return sum % this.state.pissieCatEye.length;
 
     }
+
+
     async Buy() {
         const web3 = window.web3
-        const amountToSend = web3.utils.toWei("11", "ether")
         const contract = this.state.contract;
-        console.log("contract", contract)
-        console.log("amountToSend", amountToSend)
-        const Sale = await contract.methods.transferPisi(this.state.pisihash).send({ from: this.state.account, value: amountToSend });
-        if (Sale)
-            console.log("satıldı")
-        else
-            console.log("error")
+        const owner = await contract.methods.getOwner(this.state.pisihash).call();
+        if (owner === this.state.account)
+            window.alert("Owner and transfer account is the same, you are already owner!")
+        else {
+            const amountToSend = (await contract.methods.getPrice(this.state.pisihash).call()).toNumber();
+            console.log(typeof amountToSend)
+            const Sale = await contract.methods.transferPisi(this.state.pisihash).send({ from: this.state.account, value: amountToSend });
+            this.setState({ transferSuccess: true })
+            console.log("sale", Sale)
+            /////ERROR HANDLING//////
+            console.log("transferSuccess", this.state.transferSuccess)
+        }
+
+
     }
 
     async handleGene() {
@@ -401,50 +428,70 @@ class Pissi extends Component {
                             </Card.Body>
                             <Card.Body style={{ marginTop: "-20px" }}>
                                 <Card.Text style={{ fontSize: "2rem", color: " #885086" }}>
-                                    Your Future Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.pisihash)]} </p>is Here! <br></br>
-                                    <p className="pisiName"> {this.state.price}  <i className="fab fa-ethereum"></i></p>
-                                </Card.Text>
-                                <ProgressBar className="Progress" variant={this.handleProgresCcolor(42)} label={"HUNGERNESS   " + `${42}%`} animated now={43} />
-                                <ProgressBar className="Progress" variant={this.handleProgresCcolor(22)} label={"FRAGILITY   " + `${22}%`} animated now={22} />
-                                <ProgressBar className="Progress" variant={this.handleProgresCcolor(66)} label={"FERTILITY   " + `${66}%`} animated now={66} />
-                                <ProgressBar className="Progress" variant={this.handleProgresCcolor(36)} label={"APPEAL   " + `${36}%`} animated now={36} />
-                                {this.state.genes}
-                                <div style={{ display: "flex", justifyContent: "space-around", marginTop:"20px" }}>
-                                    <Button variant="info" onClick={() => this.Buy()}>Purchase Me!</Button>
-                                    <Button variant="primary" style={{ backgroundColor: "#f7bc56", borderColor: "#f7bc56" }} onClick={() => this.handleGene()}>Check My Genes!</Button>
-                                </div>
 
+
+                                    {this.state.transferSuccess === false ?
+                                        <div> Your Future Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.pisihash)]} </p>is Here! <br></br>
+
+                                            <p className="pisiName"> {this.state.price}  <i className="fab fa-ethereum"></i></p>
+                                        </div>
+                                        :
+
+                                        <div style={{ paddingTop: "30px" }}> You are the owner of <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.pisihash)]} </p>
+                                            <i style={{ marginTop: "-2rem", marginBottom: "10px" }} className="fas fa-check-double"></i>
+                                        </div>
+                                    }
+                                </Card.Text>
+
+                                {this.state.genes}
+
+                                {this.state.transferSuccess === true ?
+                                    <div>
+                                        <i style={{ fontSize: "10rem", color: "#885086", marginBottom:"20px" }} className="fa fas fa-cat"></i>
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.hungerness)} label={"HUNGERNESS   " + `${this.state.hungerness}%`} animated now={this.state.hungerness} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fragility)} label={"FRAGILITY   " + `${this.state.fragility}%`} animated now={this.state.fragility} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fertility)} label={"FERTILITY   " + `${this.state.fertility}%`} animated now={this.state.fertility} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.appeal)} label={"APPEAL   " + `${this.state.appeal}%`} animated now={this.state.appeal} />
+
+
+                                   
+                                    </div>
+                                    :
+                                    <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
+                                        <Button variant="info" onClick={() => this.Buy()}>Purchase Me!</Button>
+                                        <Button variant="primary" style={{ backgroundColor: "#f7bc56", borderColor: "#f7bc56" }} onClick={() => this.handleGene()}>Check My Genes!</Button>
+                                    </div>}
                                 {this.state.gene === true ?
                                     <div className="genes">
                                         <table >
                                             <tr>
                                                 <td><div className="gene">Eye Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.eyeColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.eyeColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.eyeColor}</div></td>
                                             </tr>
                                             <tr>
                                                 <td><div className="gene">Head Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.headColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.headColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.headColor}</div></td>
                                             </tr>
                                             <tr>
                                                 <td><div className="gene">Body Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.bodyColor}</div></td>
                                             </tr>
                                             <tr>
                                                 <td><div className="gene">Body Accent Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyAccentColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.bodyAccentColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.bodyAccentColor}</div></td>
                                             </tr>
                                             <tr>
                                                 <td><div className="gene">Tail Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.tailColor}</div></td>
                                             </tr>
                                             <tr>
                                                 <td><div className="gene">Tail Accent Color:</div>  </td>
-                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailAccentColor)}}></div></td>
+                                                <td><div className="color" style={{ backgroundColor: this.handleColor(this.state.tailAccentColor) }}></div></td>
                                                 <td><div className="Gene">#{this.state.tailAccentColor}</div></td>
                                             </tr>
                                             <tr>

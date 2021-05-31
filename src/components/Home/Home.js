@@ -81,6 +81,7 @@ class Home extends Component {
       pisiBodySale: [],
       pisiBeardSale: [],
       pisiEyeSale: [],
+      pisiOwner: [false],
       pissieCatBody: [
         chartreux_calicool,
         chartreux_jaguar,
@@ -212,9 +213,16 @@ class Home extends Component {
   }
   async componentDidMount() {
     await this.loadWeb3()
-    const address = localStorage.getItem("accounttaddress");
+    const address = localStorage.getItem("accountaddress");
     this.setState({ account: address })
-    const web3 = window.web3
+    const web3 = window.web3;
+    const accounts = await web3.eth.getAccounts()
+
+    this.setState({ account: accounts[0] })
+    localStorage.setItem("accountaddress", accounts[0])
+
+    this.setState({ account: accounts[0] })
+    localStorage.setItem("accountaddress", accounts[0])
     const networkId = await web3.eth.net.getId()
     const networkData = Pisi.networks[networkId]
     if (networkData) {
@@ -233,13 +241,13 @@ class Home extends Component {
       var PPisiesEye = [];
       var PPisiesBody = [];
       var PPisiesBeard = [];
+      const { pisiOwner } = this.state;
 
       for (var i = 0; i < count; i++) {
-
-
         const pisiessale = await contract.methods._pisiHashesToSell(i).call();
-        const Sale = await contract.methods.getSale(pisiessale).call()
-        console.log("Sale", Sale)
+        const Sale = await contract.methods.getSale(pisiessale).call();
+        const owner = await contract.methods.getOwner(pisiessale).call();
+
         if (Sale) {
 
           const eyecolor = await contract.methods.getEyeColor(pisiessale).call();
@@ -252,13 +260,22 @@ class Home extends Component {
           PPisiesEye.push(eyecolor)
           PPisiesBody.push(body)
           PPisiesBeard.push(beard)
+
+          if (this.state.account !== owner) {
+            pisiOwner[i] = false;
+          }
+          else
+            pisiOwner[i] = true;
+
         }
       }
+      console.log("pisiOwner", pisiOwner)
       this.setState({ pisiSale: PPisies })
       this.setState({ pisiBodySale: PPisiesBody })
       this.setState({ pisiBeardSale: PPisiesBeard })
       this.setState({ pisiEyeSale: PPisiesEye })
       this.setState({ pisiPrice: PPisiesPrices })
+      this.setState({ pisiOwner: pisiOwner })
       console.log("Body", this.state.pisiBodySale)
       console.log("Eye", this.state.pisiEyeSale)
       console.log("Mouth", this.state.pisiBeardSale)
@@ -266,6 +283,7 @@ class Home extends Component {
     } else {
       window.alert("Smart contract is not deployed in this network!!!")
     }
+
   }
 
   handlePisi = () => {
@@ -355,11 +373,13 @@ class Home extends Component {
           <div className="cardContainer" style={{ justifyContent: "space-between" }}>
             {
               this.state.pisiSale.map((pisi, index) => (
+
+
                 <div className="marketCard ">
                   <Card style={{ width: '18rem', backgroundColor: "#faf2e6" }}>
 
                     <Card.Body style={{ marginTop: "0px" }}>
-                    <a href={'/Pisi/'+pisi}>
+                      <a href={'/Pisi/' + pisi}>
                         <div className="pisicontainer">
                           <div className="pisibody">
                             <img className="pissi" src={this.state.pissieCatBody[this.handleBody(this.state.pisiBodySale[index])]} alt="body"></img>
@@ -371,16 +391,25 @@ class Home extends Component {
                             <img className="pissi" src={this.state.pissieCatMouth[this.handleMouth(this.state.pisiBeardSale[index])]} alt="mouth"></img>
                           </div>
                         </div>
-                    </a>
+                      </a>
                     </Card.Body>
                     <Card.Body style={{ marginTop: "-20px" }}>
                       <Card.Text >
-                        
-                      <div className="name"><p className="pisiname"> {this.state.pissieName[this.handleName(this.state.pisiSale[index])]} </p> </div>
+
+                        <div className="name"><p className="pisiname"> {this.state.pissieName[this.handleName(this.state.pisiSale[index])]} </p> </div>
                         <div className="price"><p className="pisiname"> {this.state.pisiPrice[index]} <i className="fab fa-ethereum"></i> </p> </div>
-                      
+
                       </Card.Text>
-                      <Button variant="info"style={{backgroundColor:"#885086"}} onClick={() => this.routeChange(pisi)}>Purchase Me!</Button>
+                      {this.state.pisiOwner[index] === true ?
+                        <div>
+                          <Button variant="info" style={{ backgroundColor: "#885086" }} onClick={() => this.routeChange(pisi)}>Put Down from Sale!</Button>
+
+                        </div>
+                        :
+                        <div>
+                          <Button variant="info" style={{ backgroundColor: "#885086" }} onClick={() => this.routeChange(pisi)}>Purchase Me!</Button>
+                        </div>
+                      }
                     </Card.Body>
                   </Card>
                 </div>

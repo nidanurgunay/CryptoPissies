@@ -105,6 +105,7 @@ class MyPisi extends Component {
             bodyAccentColor: [],
             stripeType: [],
             gene: [false],
+            saleStatus: [false],
             putSale: [false],
             checkBreed: [false],
             Breed: false,
@@ -113,7 +114,7 @@ class MyPisi extends Component {
             breedCheck: false,
             errorcheck: false,
             breedindex: [],
-            breedCount:0,
+            breedCount: 0,
             pissieCatBody: [
                 chartreux_calicool,
                 chartreux_jaguar,
@@ -245,9 +246,13 @@ class MyPisi extends Component {
     }
     async componentDidMount() {
         await this.loadWeb3()
-        const address = localStorage.getItem("accounttaddress");
-        this.setState({ account: address })
-        const web3 = window.web3
+
+        const web3 = window.web3;
+        const accounts = await web3.eth.getAccounts()
+        console.log("acc", accounts[0])
+        this.setState({ account: accounts[0] })
+        localStorage.setItem("accountaddress", accounts[0])
+
         const networkId = await web3.eth.net.getId()
         const networkData = Pisi.networks[networkId]
 
@@ -259,60 +264,78 @@ class MyPisi extends Component {
             this.setState({ contract })
             localStorage.setItem("contractAddress", networkData.address)
 
-            const count = (await contract.methods.onSaleCount().call()).toNumber();
+            const Pissies = (await contract.methods.gatherPersonalPisis().call({ from: this.state.account }))[0];
+            const count = Pissies.length;
             this.setState({ count: count })
+            this.setState({ myPisies: Pissies })
+            console.log("myPisies", this.state.myPisies)
 
-            var myPissie = [];
 
 
-            console.log("acc", localStorage.getItem("accounttaddress"))
+            var { saleStatus, gene, putSale, putSalePrice, Breed, eyeColor, fertility,
+                eyeSize, headColor, headSize, beardSize, bodyColor, hungerness, fragility,
+                tailColor, tailAccentColor, tailSize, bodyAccentColor, stripeType, appeal } = this.state;
 
-            console.log("count", count)
-            var { gene, putSale, putSalePrice, Breed, eyeColor, eyeSize, headColor, headSize, beardSize, bodyColor,
-                tailColor, tailAccentColor, tailSize, bodyAccentColor, stripeType } = this.state;
-
-            for (var i = 0; i < 3; i++) {
-                const pisiessale = await contract.methods._pisiHashesToSell(i).call();
+            for (var i = 0; i < count; i++) {
+                const pisiessale = Pissies[i];
                 gene[i] = false;
+
                 putSale[i] = false;
 
-
                 putSalePrice[i] = "";
-                const Sale = await contract.methods.getSale(pisiessale).call()
-                console.log("sale", Sale)
+                const owner = await contract.methods.getOwner(pisiessale).call();
+                const Sale = await contract.methods.getSale(pisiessale).call();
+
+                const EyeColor = await contract.methods.getEyeColor(pisiessale).call();
+                const EyeSize = await contract.methods.getEyeSize(pisiessale).call();
+                const HeadColor = await contract.methods.getHeadColor(pisiessale).call();
+                const HeadSize = await contract.methods.getHeadSize(pisiessale).call();
+                const BeardSize = await contract.methods.getBeardSize(pisiessale).call();
+                const TailColor = await contract.methods.getTailColor(pisiessale).call();
+                const TailAccentColor = await contract.methods.getTailAccentColor(pisiessale).call();
+                const TailSize = await contract.methods.getTailSize(pisiessale).call();
+                const BodyColor = await contract.methods.getBodyColor(pisiessale).call();
+                const BodyAccentColor = await contract.methods.getBodyAccentColor(pisiessale).call();
+                const StripeType = await contract.methods.getStripeType(pisiessale).call();
+
+                eyeColor[i] = EyeColor;
+                eyeSize[i] = EyeSize;
+                headColor[i] = HeadColor;
+                headSize[i] = HeadSize;
+                beardSize[i] = BeardSize;
+                bodyColor[i] = BodyColor;
+                tailColor[i] = TailColor;
+                tailAccentColor[i] = TailAccentColor;
+                tailSize[i] = TailSize;
+                bodyAccentColor[i] = BodyAccentColor;
+                stripeType[i] = StripeType;
+
+                var Hungerness = (await contract.methods.getHungerness(pisiessale).call({ from: this.state.account }));
+                var Fragility = (await contract.methods.getFragility(pisiessale).call({ from: this.state.account }));
+                var Fertility = (await contract.methods.getFertility(pisiessale).call({ from: this.state.account }));
+                var Appeal = (await contract.methods.getAppeal(pisiessale).call({ from: this.state.account }));
+
+                Hungerness = this.handlePercent(Hungerness)
+                Fragility = this.handlePercent(Fragility)
+                Fertility = this.handlePercent(Fertility)
+                Appeal = this.handlePercent(Appeal)
+
+
+                hungerness[i] = Hungerness;
+                fragility[i] = Fragility;
+                fertility[i] = Fertility;
+                appeal[i] = Appeal;
+
                 if (Sale) {
-
-
-                    const EyeColor = await contract.methods.getEyeColor(pisiessale).call();
-                    const EyeSize = await contract.methods.getEyeSize(pisiessale).call();
-                    const HeadColor = await contract.methods.getHeadColor(pisiessale).call();
-                    const HeadSize = await contract.methods.getHeadSize(pisiessale).call();
-                    const BeardSize = await contract.methods.getBeardSize(pisiessale).call();
-                    const TailColor = await contract.methods.getTailColor(pisiessale).call();
-                    const TailAccentColor = await contract.methods.getTailAccentColor(pisiessale).call();
-                    const TailSize = await contract.methods.getTailSize(pisiessale).call();
-                    const BodyColor = await contract.methods.getBodyColor(pisiessale).call();
-                    const BodyAccentColor = await contract.methods.getBodyAccentColor(pisiessale).call();
-                    const StripeType = await contract.methods.getStripeType(pisiessale).call();
-
-                    eyeColor[i] = EyeColor;
-                    eyeSize[i] = EyeSize;
-                    headColor[i] = HeadColor;
-                    headSize[i] = HeadSize;
-                    beardSize[i] = BeardSize;
-                    bodyColor[i] = BodyColor;
-                    tailColor[i] = TailColor;
-                    tailAccentColor[i] = TailAccentColor;
-                    tailSize[i] = TailSize;
-                    bodyAccentColor[i] = BodyAccentColor;
-                    stripeType[i] = StripeType;
-                    myPissie.push(pisiessale)
-
+                    saleStatus[i] = true;
                 }
+                else
+                    saleStatus[i] = false;
+
+
             }
             console.log("eyecolors", this.state.eyeColor)
             // this.setState({ pisicount: pisicount })
-            this.setState({ myPisies: myPissie })
 
             this.setState({ eyeColor: eyeColor })
             this.setState({ eyeSize: eyeSize })
@@ -329,8 +352,13 @@ class MyPisi extends Component {
             this.setState({ putSale: putSale })
             this.setState({ putSalePrice: putSalePrice })
             this.setState({ Breed: Breed })
-            console.log("pissies", myPissie)
             console.log("gene", gene)
+
+
+            this.setState({ hungerness: hungerness })
+            this.setState({ fragility: fragility })
+            this.setState({ fertility: fertility })
+            this.setState({ appeal: appeal })
 
 
 
@@ -338,6 +366,10 @@ class MyPisi extends Component {
             window.alert("Smart contract is not deployed in this network!!!")
         }
 
+    }
+    handlePercent = (num) => {
+        var res = ((num + 1) / 256) * 100;
+        return res;
     }
 
 
@@ -398,13 +430,17 @@ class MyPisi extends Component {
 
     async putToSale(i) {
         const web3 = window.web3
-        const amountToSend = web3.utils.toWei("11", "ether")
         const contract = this.state.contract;
 
         const hash = this.state.myPisies[i];
         const price = this.state.putSalePrice[i];
+        console.log("hash", hash);
+        let uint256Id = web3.eth.abi.encodeParameter('uint256', price)
+        console.log("price", uint256Id);
 
-        await contract.methods.putToSale(hash).call();
+        const res = await contract.methods.putToSale(hash, price).call({ from: this.state.account });
+        console.log("res", res);
+        window.location.reload(false)
 
     }
 
@@ -419,13 +455,23 @@ class MyPisi extends Component {
         putSale[i] = !putSale[i];
         this.setState({ putSale: putSale });
     }
+    async handlePutdownSale(i) {
+        const web3 = window.web3
+        const contract = this.state.contract;
+        const hash = this.state.myPisies[i];
+        console.log("hash", hash)
+       await contract.methods.putDownFromSale(hash).call({ from: this.state.account });
+       
+        // window.location.reload(false);
+
+    }
 
     handleCheck(e, i) {
         var { checkBreed } = this.state;
-        if (this.state.mainBreed !== i){
-            checkBreed[i] = e.target.checked;   
+        if (this.state.mainBreed !== i) {
+            checkBreed[i] = e.target.checked;
         }
-        else{
+        else {
 
         }
         this.setState({ checkBreed: checkBreed });
@@ -439,38 +485,43 @@ class MyPisi extends Component {
         for (var i = 0; i < checkBreed.length; i++) {
             if (index === i) {
                 checkBreed[index] = true;
-            } 
+            }
             else
-            checkBreed[index] = false;
+                checkBreed[index] = false;
         }
         this.setState({ Breed: Breed });
         this.setState({ checkBreed: checkBreed });
         this.setState({ mainBreed: index });
 
     }
+    async handleBreed_() {
+        const web3 = window.web3
+        const contract = this.state.contract;
 
-    // handleBreed() {
-    //     var { breedindex,checkBreed } = this.state;
+        var { breedindex } = this.state;
+        var index1 = breedindex[0];
+        var index2 = breedindex[1];
 
-    //     if (breedindex.length === 2) {
-            
-    //          Breed = !Breed;
+        console.log("index1", this.state.myPisies[index1])
+        console.log("index2", this.state.myPisies[index2])
+        const hash1 = this.state.myPisies[index1];
+        const hash2 = this.state.myPisies[index2];
+        const res = await contract.methods.breed(hash1, hash2).call({ from: this.state.account });
 
-    //         for (var i = 0; i < checkBreed.length; i++) {
-    //             if (index === i) {
-    //                 checkBreed[index] = true;
-    //             }
-    //             else {
-    //                 checkBreed[index] = false;
-    //             }
-    //         }
-    //         this.setState({ Breed: Breed });
-    //         this.setState({ checkBreed: checkBreed });
-    //         this.setState({ mainBreed: index });
-    //     }
+        console.log("res", res);
+    }
 
-    // }
+    async handleFeed(index) {
+        const web3 = window.web3
+        const contract = this.state.contract;
+        const amountToSend = 1;
+        console.log(typeof amountToSend)
 
+        const res = await contract.methods.feed(this.state.myPisies[index]).call({ from: this.state.account, value: amountToSend });
+        window.alert("Cost of feeding is 0.002 ether!")
+
+        console.log("res", res);
+    }
     handleBreedd(index) {
         console.log("handleBreedd index", index)
         var { checkBreed, breedindex } = this.state;
@@ -480,16 +531,16 @@ class MyPisi extends Component {
         console.log("checkBreed", this.state.checkBreed)
 
         for (var i = 0; i < checkBreed.length; i++) {
-            if (checkBreed[i] === true) {               
+            if (checkBreed[i] === true) {
                 count++;
             }
         }
         this.setState({ breedCount: count })
 
         if (count === 2) {
-            count=0;
+            count = 0;
             for (var i = 0; i < checkBreed.length; i++) {
-                if (checkBreed[i] === true) { 
+                if (checkBreed[i] === true) {
                     breedindex[count] = i;
                     count++;
                 }
@@ -500,11 +551,11 @@ class MyPisi extends Component {
         }
         else {
             window.alert("You should select only 2 Pisies!")
-            
+
         }
 
         this.setState({ checkBreed: checkBreed });
-      
+
         console.log("breedindex", this.state.breedindex)
     }
 
@@ -526,20 +577,6 @@ class MyPisi extends Component {
         this.setState({ [str]: false })
         window.location.reload(false)
     }
-    // handleColor = (color) => {
-    //     color = "#" + color;
-    //     return color;
-    // }
-
-    // handleColor = (color) => {
-    //     color = "#" + color;
-    //     return color;
-    // }
-
-    // handleColor = (color) => {
-    //     color = "#" + color;
-    //     return color;
-    // }
 
     render() {
         return (
@@ -574,18 +611,22 @@ class MyPisi extends Component {
                                             Your Pisi <p className="pisiName"> {this.state.pissieName[this.handleName(this.state.myPisies[index])]} </p>is Here! <br></br>
                                             {/* <p className="pisiName"> {this.state.price}  <i className="fab fa-ethereum"></i></p> */}
                                         </Card.Text>
-                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(42)} label={"HUNGERNESS   " + `${42}%`} animated now={43} />
-                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(22)} label={"FRAGILITY   " + `${22}%`} animated now={22} />
-                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(66)} label={"FERTILITY   " + `${66}%`} animated now={66} />
-                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(36)} label={"APPEAL   " + `${36}%`} animated now={36} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.hungerness[index])} label={"HUNGERNESS   " + `${this.state.hungerness[index]}%`} animated now={this.state.hungerness[index]} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fragility[index])} label={"FRAGILITY   " + `${this.state.fragility[index]}%`} animated now={this.state.fragility[index]} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fertility[index])} label={"FERTILITY   " + `${this.state.fertility[index]}%`} animated now={this.state.fertility[index]} />
+                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.appeal[index])} label={"APPEAL   " + `${this.state.appeal[index]}%`} animated now={this.state.appeal[index]} />
 
                                         <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>
-                                            <Button variant="outline-info" onClick={() => this.handlePutSale(index)}>Put Me on Sale</Button>
-                                            <Button variant="outline-primary" style={{}} onClick={() => this.handleGene(index)}>Check My Genes!</Button>
+
+                                            {this.state.saleStatus[index] === false ?
+                                                <Button variant="outline-info" onClick={() => this.handlePutSale(index)}>   Put Me on Sale! <i className="fa fas fa-cat"></i></Button> : <Button variant="outline-info" onClick={() => this.handlePutdownSale(index)}>Put Me down from Sale! <i className="fa fas fa-cat"></i></Button>}
+
+                                            <Button variant="outline-primary" style={{}} onClick={() => this.handleGene(index)}>Check My Genes! <i className="fa fas fa-dna"></i></Button>
                                             {this.state.Breed === false ?
-                                                <Button variant="outline-success" style={{ marginRight: "5px" }} onClick={() => this.handleBreed(index)} >Breed!</Button>
+                                                <Button variant="outline-success" style={{ marginRight: "5px" }} onClick={() => this.handleBreed(index)} >Breed! <i className="fa fas fa-heart"></i> </Button>
                                                 : null}
-                                            <Button variant="outline-warning" style={{ marginRight: "5px" }} onClick={() => this.openModal("showfeed")} >Feed!</Button>
+                                            <Button variant="outline-warning" style={{ marginRight: "5px" }} onClick={() => this.handleFeed(index)}  >Feed! <i className="fa fas fa-ice-cream"></i>
+                                            </Button>
                                         </div>
                                         {this.state.Breed === true ?
                                             <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", alignItems: "center", color: "#881c84", fontSize: "20px" }}>
@@ -624,10 +665,10 @@ class MyPisi extends Component {
                                                                             <p style={{ width: "15rem", marginTop: "20px" }} className="pisiName"> {this.state.pissieName[this.handleName(this.state.myPisies[h])]} </p>
                                                                         </div>
 
-                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(42)} label={"HUNGERNESS   " + `${42}%`} animated now={43} />
-                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(22)} label={"FRAGILITY   " + `${22}%`} animated now={22} />
-                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(66)} label={"FERTILITY   " + `${66}%`} animated now={66} />
-                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(36)} label={"APPEAL   " + `${36}%`} animated now={36} />
+                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.hungerness[h])} label={"HUNGERNESS   " + `${this.state.hungerness[h]}%`} animated now={this.state.hungerness[h]} />
+                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fragility[h])} label={"FRAGILITY   " + `${this.state.fragility[h]}%`} animated now={this.state.fragility[h]} />
+                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fertility[h])} label={"FERTILITY   " + `${this.state.fertility[h]}%`} animated now={this.state.hungerness[h]} />
+                                                                        <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.appeal[h])} label={"APPEAL   " + `${this.state.appeal[h]}%`} animated now={this.state.appeal[h]} />
                                                                     </div>
 
                                                                 )
@@ -663,6 +704,7 @@ class MyPisi extends Component {
                                             </div>
                                             : null
                                         }
+
                                         {this.state.gene[index] === true ?
                                             <div className="genes">
 

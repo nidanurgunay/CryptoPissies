@@ -116,8 +116,9 @@ contract Pisi is ERC721Full {
     }
 
     function transferPisi(string memory pisiHash) public payable decreaseAppeal(pisiHash) {
-        //require(_pisiCollection[pisiHash].price <= msg.value);
-        //require(_pisiCollection[pisiHash].onSale == true);
+        require(_pisiCollection[pisiHash].price <= msg.value);
+        require(_pisiCollection[pisiHash].onSale == true);
+        require(_pisiCollection[pisiHash].owner != msg.sender);
 
         _pisiCollection[pisiHash].owner.transfer(_pisiCollection[pisiHash].price);
 
