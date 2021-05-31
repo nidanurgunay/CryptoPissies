@@ -36,9 +36,9 @@ contract Pisi is ERC721Full {
         uint lastFeedingTime;
     }
     
-    mapping(string => PisiAttributes) _pisiCollection;
-    mapping(address => string[]) _personalCollection;
-    mapping(address => uint8) _personalCollectionSize;
+    mapping(string => PisiAttributes) private _pisiCollection;
+    mapping(address => string[]) private _personalCollection;
+    mapping(address => uint8) private _personalCollectionSize;
 
     string[] public _pisiHashesToSell;
     uint256 public onSaleCount;
@@ -54,6 +54,8 @@ contract Pisi is ERC721Full {
     }
 
     function decodeAttributes(string memory hashedAttr, address payable owner) internal returns (string memory){
+        require(_personalCollectionSize[owner] + 1 > _personalCollectionSize[owner], "Maximum possible Pisi count is reached!");
+
         PisiAttributes memory pa = PisiAttributes(
             getNumberBetween(hashedAttr, 0, 6), // eyeColor, 
             getNumberBetween(hashedAttr, 6, 8), // eyeSize, 
@@ -101,6 +103,7 @@ contract Pisi is ERC721Full {
 
     function putToSale(string memory pisiHash, uint256 price) public decreaseAppeal(pisiHash) {
         require(_pisiCollection[pisiHash].owner == msg.sender, "You are not the owner of this pisi");
+        require(onSaleCount + 1 > onSaleCount, "Maximum marketplace capacity is reached!");
 
         _pisiCollection[pisiHash].price = price;
         _pisiCollection[pisiHash].onSale = true;
@@ -119,10 +122,13 @@ contract Pisi is ERC721Full {
         require(_pisiCollection[pisiHash].price <= msg.value, "Provided value is less than the price this pisi has!");
         require(_pisiCollection[pisiHash].onSale, "This pisi is not on the sale right now!");
         require(_pisiCollection[pisiHash].owner != msg.sender, "You are the owner of this pisi");
+        
+        address oldOwner = _pisiCollection[pisiHash].owner;
+
+        require(_personalCollectionSize[msg.sender] + 1 > _personalCollectionSize[msg.sender], "Maximum possible Pisi count of the new owner is reached!");
+        require(_personalCollectionSize[oldOwner] + 1 > _personalCollectionSize[oldOwner], "Minimum possible Pisi count of the old owner is reached!");
 
         _pisiCollection[pisiHash].owner.transfer(_pisiCollection[pisiHash].price);
-
-        address oldOwner = _pisiCollection[pisiHash].owner;
 
         _pisiCollection[pisiHash].owner = msg.sender;
 
@@ -191,6 +197,7 @@ contract Pisi is ERC721Full {
         require(_pisiCollection[pisiHashToRemove].owner == _owner, "You are not the owner of this pisi");
         require(_pisiCollection[pisiHashToRemove].onSale, "This pisi is not on the sale!");
         require(onSaleCount > 0, "There is no pisi up for sale, contact with the admin!");
+        require(onSaleCount - 1 < onSaleCount, "Minimum marketplace count is reached!");
         
         _pisiCollection[pisiHashToRemove].price = 0;
         _pisiCollection[pisiHashToRemove].onSale = false;
@@ -381,8 +388,8 @@ contract Pisi is ERC721Full {
     }
 
     function getPrice(string memory pisiHash) public view returns(uint256) {
-            return _pisiCollection[pisiHash].price;
-        }
+        return _pisiCollection[pisiHash].price;
+    }
 
     function getNumberBetween(string memory str, uint startIndex, uint endIndex) pure internal returns (string memory) {
         bytes memory strBytes = bytes(str);
