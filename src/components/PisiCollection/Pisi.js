@@ -94,6 +94,7 @@ class Pissi extends Component {
             bodyAccentColor: "",
             stripeType: "",
             transferSuccess: false,
+            onSale: false,
             pissieCatBody: [
                 chartreux_calicool,
                 chartreux_jaguar,
@@ -226,12 +227,12 @@ class Pissi extends Component {
     }
     async componentDidMount() {
         await this.loadWeb3()
-    
+
         const web3 = window.web3
         const accounts = await web3.eth.getAccounts()
         this.setState({ account: accounts[0] })
         localStorage.setItem("accountaddress", accounts[0])
-    
+
         const networkId = await web3.eth.net.getId()
         const networkData = Pisi.networks[networkId]
 
@@ -257,13 +258,16 @@ class Pissi extends Component {
                 var Fragility = (await contract.methods.getFragility(pisihas).call({ from: this.state.account }));
                 var Fertility = (await contract.methods.getFertility(pisihas).call({ from: this.state.account }));
                 var Appeal = (await contract.methods.getAppeal(pisihas).call({ from: this.state.account }));
-                
-                Hungerness= this.handlePercent(Hungerness)
-                Fragility= this.handlePercent(Fragility)
-                Fertility= this.handlePercent(Fertility)
-                Appeal= this.handlePercent(Appeal)
-             
+                const Sale = await contract.methods.getSale(pisihas).call();
+
+                Hungerness = this.handlePercent(Hungerness)
+                Fragility = this.handlePercent(Fragility)
+                Fertility = this.handlePercent(Fertility)
+                Appeal = this.handlePercent(Appeal)
+
                 this.setState({ transferSuccess: true })
+                if (Sale)
+                    this.setState({ onSale: true });
 
                 this.setState({ hungerness: Hungerness })
                 this.setState({ fragility: Fragility })
@@ -286,7 +290,7 @@ class Pissi extends Component {
 
     }
     handlePercent = (num) => {
-        var res= ((num+1)/256)*100;
+        var res = ((num + 1) / 256) * 100;
         return res;
     }
     handleProgresCcolor = (value) => {
@@ -447,14 +451,23 @@ class Pissi extends Component {
 
                                 {this.state.transferSuccess === true ?
                                     <div>
-                                        <i style={{ fontSize: "10rem", color: "#885086", marginBottom:"20px" }} className="fa fas fa-cat"></i>
                                         <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.hungerness)} label={"HUNGERNESS   " + `${this.state.hungerness}%`} animated now={this.state.hungerness} />
                                         <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fragility)} label={"FRAGILITY   " + `${this.state.fragility}%`} animated now={this.state.fragility} />
                                         <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.fertility)} label={"FERTILITY   " + `${this.state.fertility}%`} animated now={this.state.fertility} />
                                         <ProgressBar className="Progress" variant={this.handleProgresCcolor(this.state.appeal)} label={"APPEAL   " + `${this.state.appeal}%`} animated now={this.state.appeal} />
 
+                                        {this.state.onSale === true ?
+                                            <div style={{marginTop:"20px"}}>
+                                                <Button variant="info" style={{ backgroundColor: "#885086" }} onClick={() => this.routeChange()}>Put Down from Sale!<i style={{marginLeft:"5px"}}className="fa fas fa-cat"></i></Button>
 
-                                   
+                                            </div>
+                                            :
+                                            <div>
+                                                <Button variant="info" style={{ backgroundColor: "#885086" }} onClick={() => this.routeChange()}>Put Me on Sale!<i className="fa fas fa-cat"></i></Button>
+                                            </div>
+                                        }
+                                        <i style={{ fontSize: "10rem", color: "#885086", marginBottom: "20px" }} className="fa fas fa-cat"></i>
+
                                     </div>
                                     :
                                     <div style={{ display: "flex", justifyContent: "space-around", marginTop: "20px" }}>

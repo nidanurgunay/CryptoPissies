@@ -54,12 +54,11 @@ class About extends Component {
                 </div>
 
                 <div className="buttongroup">
-                    <Button variant="outline-primary" style={{ marginRight: "5px", color:"#a159bf", borderColor:"#a159bf" }} onClick={() => this.openModal("showgene")} >Genetic Codes!</Button>
+                    <Button variant="outline" style={{ marginRight: "5px", color:"#a159bf", borderColor:"#a159bf",  }} onClick={() => this.openModal("showgene")} >Genetic Codes!</Button>
                     <Modal
                         isOpen={this.state.showgene}
                         onRequestClose={() => this.closeModal("showgene")}
                         style={customStyles}
-
                     >
                         <div style={{ width: "35vh", height: "50vh" }}>
                             <div className="modal-header">
